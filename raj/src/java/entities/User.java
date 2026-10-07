@@ -11,11 +11,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.math.BigInteger;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 
 /**
  *
@@ -42,11 +43,12 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column(name = "zip")
     private Integer zip;
+    
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
-    private Long id;
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+@Basic(optional = false)
+@Column(name = "id")
+private Long id;
     @Column(name = "phone")
     private BigInteger phone;
     @Size(max = 255)
