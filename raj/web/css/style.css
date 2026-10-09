@@ -1,0 +1,232 @@
+/* ==========================================
+   RAJ — Tienda de suplementación deportiva
+   Estilo minimalista, paleta pastel
+   ========================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;800&display=swap");
+
+:root {
+  --fondo: #e6f2ec;        /* verde menta pastel */
+  --fondo-claro: #f4faf7;
+  --texto: #1f3a2e;        /* verde pino oscuro */
+  --texto-suave: #5b7a6c;
+  --acento: #f6c9b4;       /* melocotón pastel */
+  --acento-hover: #f1b49a;
+  --marron: #8b5e3c;       /* color del foco en los campos */
+  --blanco: #ffffff;
+  --fuente: "Sora", "Segoe UI", system-ui, sans-serif;
+}
+
+/* ---------- Reset básico ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--fuente);
+  color: var(--texto);
+  background: var(--fondo);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Sección principal ---------- */
+section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(180deg, var(--fondo-claro) 0%, var(--fondo) 100%);
+}
+
+/* El overlay de Mobirise ya no hace falta */
+.mbr-overlay {
+  display: none;
+}
+
+.container {
+  width: 100%;
+  max-width: 640px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ---------- Título ---------- */
+h1 {
+  font-size: clamp(5rem, 18vw, 10rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  color: var(--texto);
+  margin-bottom: 1.25rem;
+}
+
+h1 strong {
+  font-weight: inherit;
+}
+
+/* ---------- Subtítulo ---------- */
+.mbr-text {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--texto-suave);
+  margin-bottom: 2.5rem;
+}
+
+.mbr-text strong {
+  font-weight: 300;
+}
+
+/* ---------- Botón ---------- */
+.btn {
+  display: inline-block;
+  padding: 0.9rem 2.4rem;
+  font-family: var(--fuente);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--texto);
+  text-decoration: none;
+  background: var(--acento);
+  border: none;
+  border-radius: 999px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--acento-hover);
+  transform: translateY(-2px);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--texto);
+  outline-offset: 3px;
+}
+
+/* ---------- Pie ---------- */
+footer {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+footer a {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--texto);
+}
+
+/* ==========================================
+   Página de inicio de sesión (signIn.html)
+   ========================================== */
+
+/* Recuadro */
+.form6 .container {
+  max-width: 420px;
+  background: var(--blanco);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px -20px rgba(31, 58, 46, 0.25);
+}
+
+/* Cabecera del recuadro */
+.form6 .mbr-section-head {
+  background: var(--acento);
+  padding: 1.6rem 2rem;
+  text-align: center;
+}
+
+.form6 .mbr-section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--texto);
+}
+
+.form6 .mbr-section-title strong {
+  font-weight: inherit;
+}
+
+/* Cuerpo del recuadro */
+.form6 .container > .row {
+  padding: 2rem;
+}
+
+.form6 form {
+  width: 100%;
+}
+
+.form6 .dragArea {
+  gap: 1rem;
+  align-items: stretch;
+}
+
+/* Campos de texto redondos */
+.form6 .form-control {
+  width: 100%;
+  padding: 0.9rem 1.4rem;
+  font-family: var(--fuente);
+  font-size: 0.95rem;
+  color: var(--texto);
+  background: var(--fondo-claro);
+  border: 2px solid var(--fondo);
+  border-radius: 999px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form6 .form-control::placeholder {
+  color: var(--texto-suave);
+}
+
+/* Foco marrón en el campo activo */
+.form6 .form-control:focus {
+  border-color: var(--marron);
+  box-shadow: 0 0 0 4px rgba(139, 94, 60, 0.2);
+  background: var(--blanco);
+}
+
+/* Botón a todo el ancho */
+.form6 .mbr-section-btn {
+  margin-top: 0.5rem;
+}
+
+.form6 .btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* Mensajes ocultos de Mobirise */
+.form6 [hidden] {
+  display: none;
+}
+
+/* ---------- Accesibilidad ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+  .btn:hover {
+    transform: none;
+  }
+}
