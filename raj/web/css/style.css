@@ -204,6 +204,34 @@ footer a:hover {
   box-shadow: 0 0 0 4px rgba(139, 94, 60, 0.2);
   background: var(--blanco);
 }
+/*Css de pagina signUp*/
+
+/* Enlace "Regístrate" Importante no borralo lo necesito para mo botón*/
+.form6 .registro {
+  text-align: right;
+  margin-top: -0.4rem;
+  padding-right: 0.6rem;
+}
+ 
+.form6 .registro a {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+ 
+.form6 .registro a:hover {
+  color: var(--marron);
+  border-bottom-color: var(--marron);
+}
+ 
+.form6 .registro a:focus-visible {
+  outline: 2px solid var(--marron);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 
 /* Botón a todo el ancho */
 .form6 .mbr-section-btn {
@@ -219,6 +247,87 @@ footer a:hover {
 /* Mensajes ocultos de Mobirise */
 .form6 [hidden] {
   display: none;
+}
+
+.form6 button.btn {
+  cursor: pointer;
+}
+
+/* Campo que no cumple el formato (tras escribir en él) */
+.form6 .form-control:user-invalid {
+  border-color: #e3a5a5;
+}
+
+/* ==========================================
+   Página de registro (signUp.html)
+   ========================================== */
+
+.form-registro .container {
+  max-width: 560px;
+}
+
+/* Dos campos en la misma fila */
+.form-registro .campos-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Texto de ayuda bajo un campo */
+.form-registro .ayuda {
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+  padding-left: 1.4rem;
+  max-height: 0;
+  margin-top: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease, margin-top 0.2s ease, opacity 0.2s ease;
+}
+
+/* Solo se ve cuando el campo tiene el foco */
+.form-registro .form-control:focus + .ayuda {
+  max-height: 2rem;
+  margin-top: 0.4rem;
+  opacity: 1;
+}
+
+/* Requisitos de la contraseña */
+.form-registro .requisitos {
+  list-style: none;
+  margin-top: 0.7rem;
+  padding-left: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-registro .requisitos li {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+  transition: color 0.2s ease;
+}
+
+.form-registro .requisitos li::before {
+  content: "○";
+  display: inline-block;
+  width: 1.2rem;
+}
+
+.form-registro .requisitos li.cumple {
+  color: var(--texto);
+  font-weight: 600;
+}
+
+.form-registro .requisitos li.cumple::before {
+  content: "✓";
+  color: var(--marron);
+}
+
+@media (max-width: 480px) {
+  .form-registro .campos-2 {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---------- Accesibilidad ---------- */
