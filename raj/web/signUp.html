@@ -60,8 +60,23 @@
                             </div>
 
                             <!-- Contacto -->
-                            <div class="form-group">
-                                <input type="tel" name="telefono" placeholder="Teléfono" class="form-control" id="telefono" required>
+                            <div class="campo-telefono">
+                                <div class="form-group">
+                                    <select name="prefijo" class="form-control" id="prefijo" required>
+                                        <option value="+34" selected>ES +34</option>
+                                        <option value="+44">UK +44</option>
+                                        <option value="+49">DE +49</option>
+                                        <option value="+33">FR +33</option>
+                                        <option value="+39">IT +39</option>
+                                        <option value="+351">PT +351</option>
+                                        <option value="+1">US +1</option>
+                                        <option value="+52">MX +52</option>
+                                        <option value="+54">AR +54</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" name="telefono" placeholder="Teléfono" class="form-control" id="telefono" required>
+                                </div>
                             </div>
 
                             <div class="form-group">
@@ -81,6 +96,11 @@
                                 </ul>
                             </div>
 
+                            <!-- Confirmar contraseña -->
+                            <div class="form-group">
+                                <input type="password" name="confirmarPassword" placeholder="Confirmar contraseña" class="form-control" id="confirmarPassword" required>
+                            </div>
+
                             <div class="mbr-section-btn">
                                 <button type="submit" class="btn btn-primary">Registro</button>
                             </div>
@@ -89,29 +109,6 @@
                 </div>
             </div>
         </section>
-
-        <script>
-            // Código postal: solo deja escribir números
-            const codigoPostal = document.getElementById("codigoPostal");
-            codigoPostal.addEventListener("input", () => {
-                codigoPostal.value = codigoPostal.value.replace(/\D/g, "").slice(0, 5);
-            });
-
-            // Contraseña: marca cada requisito según se va cumpliendo
-            const password = document.getElementById("password");
-            const requisitos = {
-                "req-longitud": (valor) => valor.length >= 8,
-                "req-mayuscula": (valor) => /[A-Z]/.test(valor),
-                "req-numero": (valor) => /[0-9]/.test(valor)
-            };
-
-            password.addEventListener("input", () => {
-                for (const id in requisitos) {
-                    const cumple = requisitos[id](password.value);
-                    document.getElementById(id).classList.toggle("cumple", cumple);
-                }
-            });
-        </script>
 
     </body>
 </html>
