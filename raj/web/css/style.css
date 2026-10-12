@@ -350,3 +350,10 @@ footer a:hover {
     transform: none;
   }
 }
+
+/* cambio para el singI */
+/*#email-form6-1 utilizo ese id para que solo afecte a mi campo de inicio de sesion*/
+/* Solo afecta al input de email de tu página específica de inicio de sesión */
+#email-form6-1:user-invalid ~ .error-email-msg {
+    display: block;
+}
