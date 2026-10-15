@@ -6,134 +6,134 @@
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;800&display=swap");
 
 :root {
-  --fondo: #e6f2ec;        /* verde menta pastel */
-  --fondo-claro: #f4faf7;
-  --texto: #1f3a2e;        /* verde pino oscuro */
-  --texto-suave: #5b7a6c;
-  --acento: #f6c9b4;       /* melocotón pastel */
-  --acento-hover: #f1b49a;
-  --marron: #8b5e3c;       /* color del foco en los campos */
-  --blanco: #ffffff;
-  --fuente: "Sora", "Segoe UI", system-ui, sans-serif;
+    --fondo: #e6f2ec;        /* verde menta pastel */
+    --fondo-claro: #f4faf7;
+    --texto: #1f3a2e;        /* verde pino oscuro */
+    --texto-suave: #5b7a6c;
+    --acento: #f6c9b4;       /* melocotón pastel */
+    --acento-hover: #f1b49a;
+    --marron: #8b5e3c;       /* color del foco en los campos */
+    --blanco: #ffffff;
+    --fuente: "Sora", "Segoe UI", system-ui, sans-serif;
 }
 
 /* ---------- Reset básico ---------- */
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html,
 body {
-  height: 100%;
+    height: 100%;
 }
 
 body {
-  font-family: var(--fuente);
-  color: var(--texto);
-  background: var(--fondo);
-  -webkit-font-smoothing: antialiased;
+    font-family: var(--fuente);
+    color: var(--texto);
+    background: var(--fondo);
+    -webkit-font-smoothing: antialiased;
 }
 
 /* ---------- Sección principal ---------- */
 section {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1.5rem;
-  background: linear-gradient(180deg, var(--fondo-claro) 0%, var(--fondo) 100%);
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    background: linear-gradient(180deg, var(--fondo-claro) 0%, var(--fondo) 100%);
 }
 
 /* El overlay de Mobirise ya no hace falta */
 .mbr-overlay {
-  display: none;
+    display: none;
 }
 
 .container {
-  width: 100%;
-  max-width: 640px;
+    width: 100%;
+    max-width: 640px;
 }
 
 .row {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 /* ---------- Título ---------- */
 h1 {
-  font-size: clamp(5rem, 18vw, 10rem);
-  font-weight: 800;
-  line-height: 0.9;
-  letter-spacing: -0.06em;
-  color: var(--texto);
-  margin-bottom: 1.25rem;
+    font-size: clamp(5rem, 18vw, 10rem);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    color: var(--texto);
+    margin-bottom: 1.25rem;
 }
 
 h1 strong {
-  font-weight: inherit;
+    font-weight: inherit;
 }
 
 /* ---------- Subtítulo ---------- */
 .mbr-text {
-  font-size: 1.1rem;
-  font-weight: 300;
-  color: var(--texto-suave);
-  margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--texto-suave);
+    margin-bottom: 2.5rem;
 }
 
 .mbr-text strong {
-  font-weight: 300;
+    font-weight: 300;
 }
 
 /* ---------- Botón ---------- */
 .btn {
-  display: inline-block;
-  padding: 0.9rem 2.4rem;
-  font-family: var(--fuente);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--texto);
-  text-decoration: none;
-  background: var(--acento);
-  border: none;
-  border-radius: 999px;
-  transition: background 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+    padding: 0.9rem 2.4rem;
+    font-family: var(--fuente);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--texto);
+    text-decoration: none;
+    background: var(--acento);
+    border: none;
+    border-radius: 999px;
+    transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .btn:hover {
-  background: var(--acento-hover);
-  transform: translateY(-2px);
+    background: var(--acento-hover);
+    transform: translateY(-2px);
 }
 
 .btn:focus-visible {
-  outline: 2px solid var(--texto);
-  outline-offset: 3px;
+    outline: 2px solid var(--texto);
+    outline-offset: 3px;
 }
 
 /* ---------- Pie ---------- */
 footer {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 0;
-  right: 0;
-  text-align: center;
+    position: absolute;
+    bottom: 1.5rem;
+    left: 0;
+    right: 0;
+    text-align: center;
 }
 
 footer a {
-  font-size: 0.8rem;
-  color: var(--texto-suave);
-  text-decoration: none;
+    font-size: 0.8rem;
+    color: var(--texto-suave);
+    text-decoration: none;
 }
 
 footer a:hover {
-  color: var(--texto);
+    color: var(--texto);
 }
 
 /* ==========================================
@@ -142,131 +142,131 @@ footer a:hover {
 
 /* Recuadro */
 .form6 .container {
-  max-width: 420px;
-  background: var(--blanco);
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 20px 50px -20px rgba(31, 58, 46, 0.25);
+    max-width: 420px;
+    background: var(--blanco);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px -20px rgba(31, 58, 46, 0.25);
 }
 
 /* Cabecera del recuadro */
 .form6 .mbr-section-head {
-  background: var(--acento);
-  padding: 1.6rem 2rem;
-  text-align: center;
+    background: var(--acento);
+    padding: 1.6rem 2rem;
+    text-align: center;
 }
 
 .form6 .mbr-section-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--texto);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--texto);
 }
 
 .form6 .mbr-section-title strong {
-  font-weight: inherit;
+    font-weight: inherit;
 }
 
 /* Cuerpo del recuadro */
 .form6 .container > .row {
-  padding: 2rem;
+    padding: 2rem;
 }
 
 .form6 form {
-  width: 100%;
+    width: 100%;
 }
 
 .form6 .dragArea {
-  gap: 1rem;
-  align-items: stretch;
+    gap: 1rem;
+    align-items: stretch;
 }
 
 /* Campos de texto redondos */
 .form6 .form-control {
-  width: 100%;
-  padding: 0.9rem 1.4rem;
-  font-family: var(--fuente);
-  font-size: 0.95rem;
-  color: var(--texto);
-  background: var(--fondo-claro);
-  border: 2px solid var(--fondo);
-  border-radius: 999px;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    width: 100%;
+    padding: 0.9rem 1.4rem;
+    font-family: var(--fuente);
+    font-size: 0.95rem;
+    color: var(--texto);
+    background: var(--fondo-claro);
+    border: 2px solid var(--fondo);
+    border-radius: 999px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .form6 .form-control::placeholder {
-  color: var(--texto-suave);
+    color: var(--texto-suave);
 }
 
 /* Cursor encima del campo: se colorea en melocotón */
 .form6 .form-control:hover {
-  border-color: var(--acento);
-  background: var(--blanco);
-  cursor: text;
+    border-color: var(--acento);
+    background: var(--blanco);
+    cursor: text;
 }
 
 .form6 select.form-control:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 /* Foco marrón en el campo activo */
 .form6 .form-control:focus {
-  border-color: var(--marron);
-  box-shadow: 0 0 0 4px rgba(139, 94, 60, 0.2);
-  background: var(--blanco);
+    border-color: var(--marron);
+    box-shadow: 0 0 0 4px rgba(139, 94, 60, 0.2);
+    background: var(--blanco);
 }
 /*Css de pagina signUp*/
 
 /* Enlace "Regístrate" Importante no borralo lo necesito para mo botón*/
 .form6 .registro {
-  text-align: right;
-  margin-top: -0.4rem;
-  padding-right: 0.6rem;
+    text-align: right;
+    margin-top: -0.4rem;
+    padding-right: 0.6rem;
 }
- 
+
 .form6 .registro a {
-  font-size: 0.8rem;
-  color: var(--texto-suave);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: color 0.2s ease, border-color 0.2s ease;
+    font-size: 0.8rem;
+    color: var(--texto-suave);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
 }
- 
+
 .form6 .registro a:hover {
-  color: var(--marron);
-  border-bottom-color: var(--marron);
+    color: var(--marron);
+    border-bottom-color: var(--marron);
 }
- 
+
 .form6 .registro a:focus-visible {
-  outline: 2px solid var(--marron);
-  outline-offset: 3px;
-  border-radius: 4px;
+    outline: 2px solid var(--marron);
+    outline-offset: 3px;
+    border-radius: 4px;
 }
 
 
 /* Botón a todo el ancho */
 .form6 .mbr-section-btn {
-  margin-top: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 .form6 .btn {
-  display: block;
-  width: 100%;
-  text-align: center;
+    display: block;
+    width: 100%;
+    text-align: center;
 }
 
 /* Mensajes ocultos de Mobirise */
 .form6 [hidden] {
-  display: none;
+    display: none;
 }
 
 .form6 button.btn {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 /* Campo que no cumple el formato (tras escribir en él) */
 .form6 .form-control:user-invalid {
-  border-color: #e3a5a5;
+    border-color: #e3a5a5;
 }
 
 /* ==========================================
@@ -274,80 +274,126 @@ footer a:hover {
    ========================================== */
 
 .form-registro .container {
-  max-width: 560px;
+    max-width: 560px;
 }
 
 /* Dos campos en la misma fila */
 .form-registro .campos-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
 }
 
 /* Texto de ayuda bajo un campo */
 .form-registro .ayuda {
-  font-size: 0.75rem;
-  color: var(--texto-suave);
-  padding-left: 1.4rem;
-  max-height: 0;
-  margin-top: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease, margin-top 0.2s ease, opacity 0.2s ease;
+    font-size: 0.75rem;
+    color: var(--texto-suave);
+    padding-left: 1.4rem;
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease, margin-top 0.2s ease, opacity 0.2s ease;
 }
 
 /* Solo se ve cuando el campo tiene el foco */
 .form-registro .form-control:focus + .ayuda {
-  max-height: 2rem;
-  margin-top: 0.4rem;
-  opacity: 1;
+    max-height: 2rem;
+    margin-top: 0.4rem;
+    opacity: 1;
 }
 
 /* Requisitos de la contraseña */
 .form-registro .requisitos {
-  list-style: none;
-  margin-top: 0.7rem;
-  padding-left: 1.4rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
+    list-style: none;
+    margin-top: 0.7rem;
+    padding-left: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
 }
 
 .form-registro .requisitos li {
-  font-size: 0.8rem;
-  color: var(--texto-suave);
-  transition: color 0.2s ease;
+    font-size: 0.8rem;
+    color: var(--texto-suave);
+    transition: color 0.2s ease;
 }
 
 .form-registro .requisitos li::before {
-  content: "○";
-  display: inline-block;
-  width: 1.2rem;
+    content: "○";
+    display: inline-block;
+    width: 1.2rem;
 }
 
 .form-registro .requisitos li.cumple {
-  color: var(--texto);
-  font-weight: 600;
+    color: var(--texto);
+    font-weight: 600;
 }
 
 .form-registro .requisitos li.cumple::before {
-  content: "✓";
-  color: var(--marron);
+    content: "✓";
+    color: var(--marron);
 }
 
 @media (max-width: 480px) {
-  .form-registro .campos-2 {
-    grid-template-columns: 1fr;
-  }
+    .form-registro .campos-2 {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ---------- Accesibilidad ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .btn {
-    transition: none;
-  }
-  .btn:hover {
-    transform: none;
-  }
+    .btn {
+        transition: none;
+    }
+    .btn:hover {
+        transform: none;
+    }
 }
+
+/* ---------- Contraseña ojo ---------- */
+.campo-password {
+    position: relative;
+}
+.campo-password .form-control {
+    padding-right: 3.4rem;
+}
+.campo-password .form-control::-ms-reveal {
+    display: none;
+}
+.ver-password {
+    position: absolute;
+    right: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.2rem;
+    height: 2.2rem;
+    display: grid;
+    place-items: center;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: #5b7a6c;
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+.ver-password:hover {
+    color: #8b5e3c;
+    background: #e6f2ec;
+}
+.ver-password:focus-visible {
+    outline: 2px solid #8b5e3c;
+    outline-offset: 2px;
+}
+.ver-password .icono-ocultar {
+    display: none;
+}
+.ver-password[aria-pressed="true"] .icono-ver {
+    display: none;
+}
+.ver-password[aria-pressed="true"] .icono-ocultar {
+    display: block;
+}
+
+
 
