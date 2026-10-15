@@ -9,6 +9,24 @@
 
         <title>RAJ - Registro</title>
         <link rel="stylesheet" href="css/style.css">
+        <!-- Estilos del ojito para mostrar u ocultar la contraseña -->
+        <style>
+            .campo-password { position: relative; }
+            .campo-password .form-control { padding-right: 3.4rem; }
+            .campo-password .form-control::-ms-reveal { display: none; }
+            .ver-password {
+                position: absolute; right: 0.8rem; top: 50%; transform: translateY(-50%);
+                width: 2.2rem; height: 2.2rem; display: grid; place-items: center;
+                border: none; border-radius: 50%; background: transparent;
+                color: #5b7a6c; cursor: pointer;
+                transition: color 0.2s ease, background 0.2s ease;
+            }
+            .ver-password:hover { color: #8b5e3c; background: #e6f2ec; }
+            .ver-password:focus-visible { outline: 2px solid #8b5e3c; outline-offset: 2px; }
+            .ver-password .icono-ocultar { display: none; }
+            .ver-password[aria-pressed="true"] .icono-ver { display: none; }
+            .ver-password[aria-pressed="true"] .icono-ocultar { display: block; }
+        </style>
     </head>
     <body>
 
@@ -85,9 +103,15 @@
 
                             <!-- Contraseña -->
                             <div class="form-group">
-                                <input type="password" name="password" placeholder="Contraseña" class="form-control" id="password"
-                                       pattern="(?=.*[A-Z])(?=.*[0-9]).{8,}"
-                                       title="Mínimo 8 caracteres, con al menos una mayúscula y un número" required>
+                                <div class="campo-password">
+                                    <input type="password" name="password" placeholder="Contraseña" class="form-control" id="password"
+                                           pattern="(?=.*[A-Z])(?=.*[0-9]).{8,}"
+                                           title="Mínimo 8 caracteres, con al menos una mayúscula y un número" required>
+                                    <button type="button" class="ver-password" data-target="password" aria-label="Mostrar contraseña" aria-pressed="false">
+                                        <svg class="icono-ver" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        <svg class="icono-ocultar" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                                    </button>
+                                </div>
 
                                 <ul class="requisitos" id="requisitos">
                                     <li id="req-longitud">Mínimo 8 caracteres</li>
@@ -98,7 +122,13 @@
 
                             <!-- Confirmar contraseña -->
                             <div class="form-group">
-                                <input type="password" name="confirmarPassword" placeholder="Confirmar contraseña" class="form-control" id="confirmarPassword" required>
+                                <div class="campo-password">
+                                    <input type="password" name="confirmarPassword" placeholder="Confirmar contraseña" class="form-control" id="confirmarPassword" required>
+                                    <button type="button" class="ver-password" data-target="confirmarPassword" aria-label="Mostrar contraseña" aria-pressed="false">
+                                        <svg class="icono-ver" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        <svg class="icono-ocultar" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                                    </button>
+                                </div>
                             </div>
 
                             <div class="mbr-section-btn">
@@ -109,6 +139,9 @@
                 </div>
             </div>
         </section>
+
+
+
 
     </body>
 </html>
