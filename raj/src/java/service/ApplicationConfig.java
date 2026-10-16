@@ -27,7 +27,6 @@ public class ApplicationConfig extends jakarta.ws.rs.core.Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(service.ChangePasswordResource.class);
         resources.add(service.UserFacadeREST.class);
     }
     
