@@ -1,0 +1,22 @@
+
+/* 
+    Created on : 26 oct 2026, 13:10:56
+    Author     : roswer
+*/
+/* ==========================================
+   RAJ — Modo Oscuro (Estilo alternativo)
+   ========================================== */
+/* Importamos todo el diseño y reglas de style.css */
+@import url("style.css");
+
+/* Sobrescribimos ÚNICAMENTE los colores para el Modo Oscuro */
+:root {
+    --fondo: #121816;         /* Fondo principal verde oscuro profundo */
+    --fondo-claro: #1c2522;   /* Fondo claro/secundario ajustado para tono oscuro */
+    --texto: #e1e7e4;         /* Texto principal en verde menta muy claro */
+    --texto-suave: #a0b0a8;   /* Subtítulos y placeholders */
+    --acento: #d97757;        /* Tono melocotón ajustado para el botón y cabecera */
+    --acento-hover: #e88d6d;  /* Estado hover del botón */
+    --marron: #c2885d;        /* Color para el foco activo (focus) */
+    --blanco: #19221f;        /* Color del contenedor/tarjeta del formulario */
+}
