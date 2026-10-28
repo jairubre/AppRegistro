@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
-//import {User} from './User.js'
+import {User} from './User.js'
 
 //Expresiones regulares
 
@@ -44,14 +44,19 @@ class SignUp {
     }
 
     validarName() {
-        const valor = this.name.value.trim();
-        if (valor === "") {
+        const nameTest = this.name.value.trim();
+        if (nameTest === "") {
             alert("Has dejado el campo vacio y es obligatorio");
             return false;
         }
         return true;
     }
     validarSurname() {
+        const surnameTest = this.surname.value.trim();
+        if (surnameTest === "") {
+            alert("Has dejado el campo vacio y es obligatorio");
+            return false;
+        }
 
         return true;
     }
@@ -59,23 +64,52 @@ class SignUp {
         return true;
     }
     validarDireccion() {
-
+        const direccionTest = this.direccion.value.trim();
+        if (direccionTest === "") {
+            alert("Has dejado el campo vacio y es obligatorio");
+            return false;
+        }
         return true;
     }
     validarCity() {
-
+        const cityTest = this.city.value.trim();
+        if (cityTest === "") {
+            alert("Has dejado el campo vacio y es obligatorio");
+            return false;
+        }
         return true;
     }
     validarLocality() {
-
+        const localityTest = this.locality.value.trim();
+        if (localityTest === "") {
+            alert("Has dejado el campo vacio y es obligatorio");
+            return false;
+        }
         return true;
     }
     validarZipCode() {
-
-        return true;
+        const zipcodeTest = this.zipCode.value.trim();
+        const ExpZipCode = /^(0[1-9]|[1-4][0-9]|5[0-2])[0-9]{3}$/;
+        if (zipcodeTest !== "") {
+            if (ExpZipCode.test(zipcodeTest)){
+                return true;
+            }else{
+                alert("El formato del codigo postal no es el adecuado");
+               return false;
+            }
+            
+        }
+        alert("Has dejado el campo vacio y es obligatorio");
+        return false;
+        
+        
     }
     validarPhone() {
-
+        const phoneTest = this.phone.value.trim();
+        if (phoneTest === "") {
+            alert("Has dejado el campo vacio y es obligatorio");
+            return false;
+        }
         return true;
     }
 
@@ -85,13 +119,16 @@ class SignUp {
         const emailtest = this.email.value;
         //Genramosuna expresion regular para comprobar el formato del correo 
         const expRegular = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
-        //Coparamos el correo con la expresion
-        if (!expRegular.test(emailtest)) {
-            //Si el formato no es correcto cuando el cliente pulse otro elemento le sale el fallo 
-            alert("El email esta mal escrito");
-            return false;
+        //Comprobamos que el campo no este vacio
+        if (emailtest !== "") {
+            //Coparamos el correo con la expresion
+            if (!expRegular.test(emailtest)) {
+                //Si el formato no es correcto cuando el cliente pulse otro elemento le sale el fallo 
+                alert("El email esta mal escrito");
+                return false;
+            }
         }
-
+        alert("Es obligatorio rellenar el campo");
         return true;
     }
     validarPassword() {
