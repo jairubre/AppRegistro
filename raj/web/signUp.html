@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="css/style.css" title="Claro">
         <link rel="alter stylesheet" href="css/alterStyle.css" title="Oscuro">
         <!-- Estilos del ojito para mostrar u ocultar la contraseña -->
-        
+
     </head>
     <body>
 
@@ -64,15 +64,18 @@
 
                             <!-- Contacto -->
                             <div class="campo-telefono">
-                       
+
                                 <div class="form-group">
                                     <input type="tel" name="telefono" placeholder="Teléfono" class="form-control" id="telefono" 
-                                             title="El teléfono debe tener 9 cifras y empezar por 6, 7, 8 o 9" required>
+                                           inputmode="numeric" pattern="[6789][0-9]{8}" maxlength="9"
+                                           title="El teléfono debe tener 9 cifras y empezar por 6, 7, 8 o 9" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <input type="email" name="email" placeholder="Correo electrónico" class="form-control" id="email" required>
+                                <input type="email" name="email" placeholder="Correo electrónico" class="form-control" id="email" 
+                                       pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" maxlength="255"
+                                       title="" required>
                             </div>
 
                             <!-- Contraseña -->
@@ -108,17 +111,18 @@
                             <div class="mbr-section-btn">
                                 <button type="submit" class="btn btn-primary">Registro</button>
                             </div>
-                            
-                             <div class="registro">
-                                    <a href="index.html">Volver</a>
-                                </div>
+
+                            <div class="registro">
+                                <a href="index.html">Volver</a>
+                            </div>
                         </div>
                     </form>
                 </div>
             </div>
         </section>
 
-        <script src="controllerSignUp.js" type="module"></script>
+       <script src="./js/controllerSignUp.js" type="module"></script>
+        
 
 
     </body>
