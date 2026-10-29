@@ -16,7 +16,7 @@ class SignUp {
         this.name = document.getElementById("nombre");
         this.surname = document.getElementById("apellido");
         this.middlename = document.getElementById("nombreCompuesto");
-        this.direccion = document.getElementById("calle");
+        this.street = document.getElementById("calle");
         this.city = document.getElementById("ciudad");
         this.locality = document.getElementById("localidad");
         this.zipCode = document.getElementById("codigoPostal");
@@ -33,7 +33,7 @@ class SignUp {
         this.name.addEventListener("blur", () => this.validarName());
         this.surname.addEventListener("blur", () => this.validarSurname());
         this.middlename.addEventListener("blur", () => this.validarMiddle());
-        this.direccion.addEventListener("blur", () => this.validarDireccion());
+        this.street.addEventListener("blur", () => this.validarDireccion());
         this.city.addEventListener("blur", () => this.validarCity());
         this.locality.addEventListener("blur", () => this.validarLocality());
         this.zipCode.addEventListener("blur", () => this.validarZipCode());
@@ -64,7 +64,7 @@ class SignUp {
         return true;
     }
     validarDireccion() {
-        const direccionTest = this.direccion.value.trim();
+        const direccionTest = this.street.value.trim();
         if (direccionTest === "") {
             alert("Has dejado el campo vacio y es obligatorio");
             return false;
