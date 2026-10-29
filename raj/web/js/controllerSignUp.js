@@ -29,7 +29,7 @@ class SignUp {
          * tener toda nuestra página web
          */
 
-
+         //Blur es evento foco
         this.name.addEventListener("blur", () => this.validarName());
         this.surname.addEventListener("blur", () => this.validarSurname());
         this.middlename.addEventListener("blur", () => this.validarMiddle());
@@ -40,6 +40,7 @@ class SignUp {
         this.phone.addEventListener("blur", () => this.validarPhone());
         this.email.addEventListener("blur", () => this.validarEmail());
         this.passwordConfirm.addEventListener("blur", () => this.validarPassword());
+        //Evento registrar, comprobamos todos los datos y hacemos el registro
         this.form.addEventListener("submit", (eventoRegistro) => this.registrar(eventoRegistro));
     }
 
