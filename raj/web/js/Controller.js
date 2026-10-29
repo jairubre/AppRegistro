@@ -54,4 +54,31 @@ class signIn {
     // 3. Si pasa ambas validaciones, todo está correcto
     return true;
 }
-}    
+
+    validarContraseña(){
+        //nos guardamos el dato recogido en el campo email. 
+        const validarContrasena = this.password.value.tim();
+        
+        // Expresión regular para validar el formato del email
+        const expRegular = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+        
+        // 1. Comprobar si el campo está vacío
+        if(validarContrasena ===""){
+              alert("Es obligatorio rellenar el campo");
+               return false;
+        }
+        
+         // 2. Comprobar si el formato del email es incorrecto
+    if (!expRegular.test(validarContrasena)) {
+        alert("El email está mal escrito");
+        return false;
+    }
+        
+        // 3. Si pasa ambas validaciones, todo está correcto
+        return true;
+        
+        
+    }
+   
+   }
+    
