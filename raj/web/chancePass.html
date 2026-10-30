@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
         <link rel="shortcut icon" href="assets/images/logo5.png" type="image/x-icon">
         <meta name="description" content="">
-
+ 
         <title>Cambiar Contraseña</title>
         
         
@@ -16,9 +16,9 @@
 <link href="css/dark-style.css" rel="alternate stylesheet" title="Modo Oscuro" />
     </head>
     <body>
-
+ 
         <section data-bs-version="5.1" class="form6 cid-vxtjBLoAU8" id="form6-1">
-
+ 
             <div class="mbr-overlay"></div>
             <div class="container">
                 <div class="mbr-section-head">
@@ -33,9 +33,9 @@
                             <div class="row">
                                 <div id="responseMessage" class="col-12 mb-3"></div>
                             </div>
-
+ 
                             <div class="dragArea row">
-
+ 
                                 <!-- Contraseña Actual -->
                                 <div class="col-lg-12 col-md-12 col-sm-12 form-group mb-3">
                                     <div class="campo-password">
@@ -46,7 +46,7 @@
                                         </button>
                                     </div>
                                 </div>
-
+ 
                                 <!-- Nueva Contraseña con Icono de Información (Tooltip al pasar el ratón) -->
                                 <div class="col-lg-12 col-md-12 col-sm-12 form-group mb-3">
                                     <div class="campo-password position-relative">
@@ -56,14 +56,14 @@
                                         <span title="La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número." style="position: absolute; right: 45px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #6c757d; display: flex; align-items: center;" aria-label="Información de contraseña">
                                             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                                         </span>
-
+ 
                                         <button type="button" class="ver-password" aria-label="Mostrar contraseña">
                                             <svg class="icono-ver" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                                             <svg class="icono-ocultar" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
                                         </button>
                                     </div>
                                 </div>
-
+ 
                                 <!-- Repetir Nueva Contraseña -->
                                 <div class="col-lg-12 col-md-12 col-sm-12 form-group mb-3">
                                     <div class="campo-password">
@@ -74,83 +74,29 @@
                                         </button>
                                     </div>
                                 </div>
-
+ 
                                 <!-- Botón de actualizar -->
                                 <div class="col-auto mbr-section-btn align-center">
                                     <button type="submit" class="btn btn-primary display-4">Actualizar Contraseña</button>
                                 </div>
-
+ 
                                 <!-- Enlace de volver atrás en formato pequeño -->
                                 <div class="registro">
                                     <a href="mainPage.html">Volver</a>
                                 </div>
-
+ 
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!--validaciones y petición PUT -->
-        <script>
-           
-
-            // Lógica del formulario (Validaciones y envío PUT)
-            document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const currentPassword = document.getElementById('currentPassword').value;
-                const newPassword = document.getElementById('newPassword').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
-                const messageDiv = document.getElementById('responseMessage');
-
-                messageDiv.innerHTML = '';
-
-                // Validar requisitos de la nueva contraseña (Mínimo 8, 1 mayúscula, 1 número)
-                const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
-                if (!passwordRegex.test(newPassword)) {
-                    messageDiv.innerHTML = '<div class="alert alert-warning col-12">La nueva contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.</div>';
-                    return;
-                }
-
-                // Validar que la nueva contraseña y su repetición coinciden
-                if (newPassword !== confirmPassword) {
-                    messageDiv.innerHTML = '<div class="alert alert-warning col-12">Las nuevas contraseñas no coinciden.</div>';
-                    return;
-                }
-
-                // Petición PUT al servidor
-                fetch("/raj/webresources/password", {
-                    method: "PUT",
-                    headers: { 
-                        "Content-Type": "application/json" 
-                    },
-                    body: JSON.stringify({ 
-                        currentPassword: currentPassword, 
-                        newPassword: newPassword 
-                    })
-                })
-                .then(response => {
-                    if (response.status === 204) {
-                        messageDiv.innerHTML = '<div class="alert alert-success col-12">¡Contraseña actualizada con éxito!</div>';
-                        document.getElementById('changePasswordForm').reset();
-                    } else if (response.status === 403) {
-                        messageDiv.innerHTML = '<div class="alert alert-danger col-12">La contraseña actual es incorrecta.</div>';
-                    } else if (response.status === 400) {
-                        messageDiv.innerHTML = '<div class="alert alert-warning col-12">La nueva contraseña no cumple las reglas del servidor o es igual a la actual.</div>';
-                    } else if (response.status === 401) {
-                        messageDiv.innerHTML = '<div class="alert alert-danger col-12">No hay sesión activa. Inicia sesión de nuevo.</div>';
-                    } else {
-                        messageDiv.innerHTML = '<div class="alert alert-danger col-12">Error inesperado (Código: ' + response.status + ').</div>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    messageDiv.innerHTML = '<div class="alert alert-danger col-12">Error de conexión con el servidor.</div>';
-                });
-            });
-        </script>
+        <!-- Controlador del cambio de contraseña (clase en js/passwordcontroller.js).
+             type="module" porque la clase usa export. -->
+          <script type="module">
+      import { PasswordController } from "./js/passwordcontroller.js";
+      new PasswordController();
+  </script>
  
     </body>
 </html>
