@@ -7,8 +7,8 @@ import {User} from './User.js'
 //Expresiones regulares
 
 //Es una expresion regular que me comprueba que el campo solo contiene letras
-const letras = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]+$/;
-class SignUp {
+
+        class SignUpController {
     constructor() {
         console.log("2. Constructor ejecutado");
         //Inicializamos lo elementos del formulario
@@ -23,13 +23,17 @@ class SignUp {
         this.phone = document.getElementById("telefono");
         this.email = document.getElementById("email");
         this.password = document.getElementById("password");
+        //Elemento ojo 
+        this.eye1=document.getElementById("ojo1");
+        this.eye2=document.getElementById("ojo2");
+
         this.passwordConfirm = document.getElementById("confirmarPassword");
         /*
          * Inicializamos lo eventos todos los eventos que puede 
          * tener toda nuestra página web
          */
 
-         //Blur es evento foco
+        //Blur es evento foco
         this.name.addEventListener("blur", () => this.validarName());
         this.surname.addEventListener("blur", () => this.validarSurname());
         this.middlename.addEventListener("blur", () => this.validarMiddle());
@@ -40,18 +44,40 @@ class SignUp {
         this.phone.addEventListener("blur", () => this.validarPhone());
         this.email.addEventListener("blur", () => this.validarEmail());
         this.passwordConfirm.addEventListener("blur", () => this.validarPassword());
+        //Evento del ojo para mostrar y ocultar la contraseña
+        this.eye1.addEventListener("click",()=>this.alternarPassword(this.eye1,this.password ));
+        this.eye2.addEventListener("click",()=>this.alternarPassword(this.eye2,this.passwordConfirm));
         //Evento registrar, comprobamos todos los datos y hacemos el registro
-        this.form.addEventListener("submit", (eventoRegistro) => this.registrar(eventoRegistro));
+        this.form.addEventListener("submit", () => this.handleregistrar());
     }
+    
+    //Funcion del boton 
+    alternarPassword(boton, campo) {
+    if (campo.type === "password") {
+        campo.type = "text";
+        boton.setAttribute("aria-pressed", "true");
+    } else {
+        campo.type = "password";
+        boton.setAttribute("aria-pressed", "false");
+    }
+}
 
     validarName() {
         const nameTest = this.name.value.trim();
-        if (nameTest === "") {
-            alert("Has dejado el campo vacio y es obligatorio");
-            return false;
+        const ExpName = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]+$/;
+        if (nameTest !== "") {
+            if (ExpName.test(nameTest)) {
+                return true;
+            } else {
+                alert("Introduce solo letras");
+                return false;
+            }
+
         }
-        return true;
+        alert("No puedes dejar este campo vacio es obligatorio");
+        return false;
     }
+
     validarSurname() {
         const surnameTest = this.surname.value.trim();
         if (surnameTest === "") {
@@ -92,18 +118,18 @@ class SignUp {
         const zipcodeTest = this.zipCode.value.trim();
         const ExpZipCode = /^(0[1-9]|[1-4][0-9]|5[0-2])[0-9]{3}$/;
         if (zipcodeTest !== "") {
-            if (ExpZipCode.test(zipcodeTest)){
+            if (ExpZipCode.test(zipcodeTest)) {
                 return true;
-            }else{
+            } else {
                 alert("El formato del codigo postal no es el adecuado");
-               return false;
+                return false;
             }
-            
+
         }
         alert("Has dejado el campo vacio y es obligatorio");
         return false;
-        
-        
+
+
     }
     validarPhone() {
         const phoneTest = this.phone.value.trim();
@@ -129,7 +155,7 @@ class SignUp {
                 return false;
             }
         }
-        alert("Es obligatorio rellenar el campo");
+        
         return true;
     }
     validarPassword() {
@@ -143,7 +169,7 @@ class SignUp {
         return true;
     }
 
-    registrar(eventoRegistro) {
+    handleregistrar() {
         if (this.validarName() && this.validarSurname() && this.validarCity() && this.validarDireccion() && this.validarEmail()
                 && this.validarLocality() && this.validarMiddle() && this.validarPassword()
                 && this.validarPhone() && this.validarZipCode()) {
@@ -154,5 +180,9 @@ class SignUp {
     }
 
 }
+// Con este even to hacemos que carge la clase y con eso el constructor
 
-new SignUp();
+document.addEventListener('DOMContentLoaded',()=>{
+    new SignUpController();
+});
+
