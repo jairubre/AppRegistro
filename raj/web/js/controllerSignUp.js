@@ -24,8 +24,8 @@ import {User} from './User.js'
         this.email = document.getElementById("email");
         this.password = document.getElementById("password");
         //Elemento ojo 
-        this.eye1=document.getElementById("ojo1");
-        this.eye2=document.getElementById("ojo2");
+        this.eye1 = document.getElementById("ojo1");
+        this.eye2 = document.getElementById("ojo2");
 
         this.passwordConfirm = document.getElementById("confirmarPassword");
         /*
@@ -45,22 +45,22 @@ import {User} from './User.js'
         this.email.addEventListener("blur", () => this.validarEmail());
         this.passwordConfirm.addEventListener("blur", () => this.validarPassword());
         //Evento del ojo para mostrar y ocultar la contraseña
-        this.eye1.addEventListener("click",()=>this.alternarPassword(this.eye1,this.password ));
-        this.eye2.addEventListener("click",()=>this.alternarPassword(this.eye2,this.passwordConfirm));
+        this.eye1.addEventListener("click", () => this.alternarPassword(this.eye1, this.password));
+        this.eye2.addEventListener("click", () => this.alternarPassword(this.eye2, this.passwordConfirm));
         //Evento registrar, comprobamos todos los datos y hacemos el registro
         this.form.addEventListener("submit", () => this.handleregistrar());
     }
-    
+
     //Funcion del boton 
     alternarPassword(boton, campo) {
-    if (campo.type === "password") {
-        campo.type = "text";
-        boton.setAttribute("aria-pressed", "true");
-    } else {
-        campo.type = "password";
-        boton.setAttribute("aria-pressed", "false");
+        if (campo.type === "password") {
+            campo.type = "text";
+            boton.setAttribute("aria-pressed", "true");
+        } else {
+            campo.type = "password";
+            boton.setAttribute("aria-pressed", "false");
+        }
     }
-}
 
     validarName() {
         const nameTest = this.name.value.trim();
@@ -155,21 +155,33 @@ import {User} from './User.js'
                 return false;
             }
         }
-        
+
         return true;
     }
     validarPassword() {
+        console.log("Has entrado en validar contraseña");
         const c1 = this.password.value.trim();
         const c2 = this.passwordConfirm.value.trim();
-        if (c1 !== c2) {
-            alert("Las contraseñas no son iguales");
-            return false;
+        const passExp = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
+        if (c1 !== "") {
+            if (passExp.test(c1) && passExp.test(c2)) {
+                if (c1 !== c2) {
+                    alert("Las contraseñas no son iguales");
+                    return false;
+                } else {
+                    return true;
+                }
+            }
         }
-
-        return true;
+        alert("Tienes el primer campo de contraseña vacio");
+        return false;
     }
 
-    handleregistrar() {
+    async handleregistrar() {
+        /*
+         * Llamamos a los metodos de validacion antes de enviar porque que el usuario lo primero q puede hacer es 
+         * dar al botn de registro sin pasar por todos los campos
+         */
         if (this.validarName() && this.validarSurname() && this.validarCity() && this.validarDireccion() && this.validarEmail()
                 && this.validarLocality() && this.validarMiddle() && this.validarPassword()
                 && this.validarPhone() && this.validarZipCode()) {
@@ -180,9 +192,9 @@ import {User} from './User.js'
     }
 
 }
-// Con este even to hacemos que carge la clase y con eso el constructor
+// Con este evento hacemos que carge la clase y con eso el constructor
 
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded', () => {
     new SignUpController();
 });
 
