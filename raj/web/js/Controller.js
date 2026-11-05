@@ -33,7 +33,7 @@ class SignInController {
          //this.email.addEventListener("focus", () => this.validarFocus()); lo hacemos con el css la ganancia de foco 
         this.password.addEventListener("blur", () => this.validarpassword());
         // añado el evento submit para enviar el contenido 
-        this.form.addEventListener("submit", () => this.handlersesion());
+        this.form.addEventListener("submit", (e) => this.handlersesion(e));
         //hacemos el evento del ojo para ver 
         this.ojo.addEventListener("click", () => this.alternarPassword(this.ojo,this.password ));
         
@@ -79,10 +79,11 @@ class SignInController {
 
     validarpassword(){
         //nos guardamos el dato recogido en el campo email. 
-        const validarContrasena = this.password.value.tim();
+        const validarContrasena = this.password.value.trim();
         
         // Expresión regular para validar el formato del email
-        const expRegular = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+        // exige que la contraseña tenga 8 catracteres y que contenga una minus
+        const expRegular = /^(?=.*[a-z])(?=.*[0-9]).{8,}$/;
         
         // 1. Comprobar si el campo está vacío
         if(validarContrasena ===""){
@@ -92,7 +93,8 @@ class SignInController {
         
          // 2. Comprobar si el formato del email es incorrecto
     if (!expRegular.test(validarContrasena)) {
-        alert("El email está mal escrito");
+        // si sale este mensaje es que no cumple ni el requisito. 
+        alert("la contraseña esta mal ");
         return false;
     }
         
@@ -103,20 +105,78 @@ class SignInController {
     }
    //si usas fetch tienes que ser asincrono, fetch envia una peticion 
    
-   async handlersesion(){
-       //me tiene que validar las credenciales aqui. 
+   async handlersesion(e){
+       //para evitar el burbujeo de eventos
+       e.preventDefault();
+       
+       // 2. Validamos ambos campos antes de enviar
+        const esEmailValido = this.validarEmail();
+        const esPasswordValido = this.validarpassword();
+        const url = `http://localhost:8080/raj/webresources/entities.user`;
+        
+       // Si alguno no es válido, detenemos el proceso
+        if (!esEmailValido || !esPasswordValido) {
+            console.log("Validación fallida. No se puede enviar el formulario.");
+            return;
+        }
+        
+        // cuando llamas al fetch hay que meterle el await porque es es asincono el fetch y puede hacer lo que quiera el usuario. 
+         //const response = await fetch 
+       try {
+            // 2. Realizamos la petición GET a la API
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            // Si el servidor responde con un error (ej: 404, 500)
+            if (!response.ok) {
+                throw new Error("Error al conectar con el servidor o la base de datos.");
+            }
+
+            // 3. Convertimos la respuesta en un array de usuarios de la BDD
+            const listaUsuarios = await response.json();
+            
+            // Obtenemos lo que ha escrito el usuario en el formulario
+            const emailIngresado = this.email.value.trim();
+            const passwordIngresado = this.password.value.trim();
+
+            // 4. Buscamos si existe un usuario que coincida con el email y la contraseña
+            const usuarioEncontrado = listaUsuarios.find(user => 
+                user.email === emailIngresado && user.password === passwordIngresado
+            );
+
+            // 5. Comprobamos el resultado de la búsqueda
+            if (usuarioEncontrado) {
+                alert(`¡Inicio de sesión exitoso! Bienvenido, ${usuarioEncontrado.firstName || 'Usuario'}`);
+                console.log("Usuario autenticado:", usuarioEncontrado);
+                
+                // Redirigir a la página principal
+                window.location.href = "mainPage.html";
+            } else {
+                //este error me salta cuando meto los caracteres de la contraseña bien pero no coincide.
+                alert("Correo o contraseña incorrectos.");
+            }
+
+        } catch (error) {
+            console.error("Hubo un error en la petición fetch:", error);
+            alert("No se pudo completar la solicitud de inicio de sesión.");
+        }
+    }
+        
+
     
-   }
+}
    
-   // cuando llamas al fetch hay que meterle el await porque es es asincono el fetch y puede hacer lo que quiera el usuario. 
-   //const response = await fetch 
+
    
    
-   }
    
    //inicializar el constructor  para que entre en los metodos. 
    //document es una variable local implicita
   document.addEventListener('DOMContentLoaded', () => {
     new SignInController();
-});
+    });
     
