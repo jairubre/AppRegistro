@@ -83,7 +83,7 @@ class SignInController {
         
         // Expresión regular para validar el formato del email
         // exige que la contraseña tenga 8 catracteres y que contenga una minus
-        const expRegular = /^(?=.*[a-z])(?=.*[0-9]).{8,}$/;
+       const expRegular = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
         
         // 1. Comprobar si el campo está vacío
         if(validarContrasena ===""){
@@ -94,7 +94,7 @@ class SignInController {
          // 2. Comprobar si el formato del email es incorrecto
     if (!expRegular.test(validarContrasena)) {
         // si sale este mensaje es que no cumple ni el requisito. 
-        alert("la contraseña esta mal ");
+        alert("correo o contraseña mal ");
         return false;
     }
         
@@ -149,7 +149,26 @@ class SignInController {
             );
 
             // 5. Comprobamos el resultado de la búsqueda
+
+           
+            
             if (usuarioEncontrado) {
+                   //hago la sesion estorage por el objeto 
+                   sessionStorage.setItem('usuarioLogueado', JSON.stringify(usuarioEncontrado));
+                   
+                   // Gsesion estorage individual.
+                sessionStorage.setItem('userCity', usuarioEncontrado.city);
+                sessionStorage.setItem('userEmail', usuarioEncontrado.email);
+                sessionStorage.setItem('userFirstName', usuarioEncontrado.firstName);
+                sessionStorage.setItem('userId', usuarioEncontrado.id);
+                sessionStorage.setItem('userLastName', usuarioEncontrado.lastName);
+                sessionStorage.setItem('userMiddleInitial', usuarioEncontrado.middleInitial);
+                sessionStorage.setItem('userPassword', usuarioEncontrado.password);
+                sessionStorage.setItem('userPhone', usuarioEncontrado.phone);
+                sessionStorage.setItem('userState', usuarioEncontrado.state);
+                sessionStorage.setItem('userStreet', usuarioEncontrado.street);
+                sessionStorage.setItem('userZip', usuarioEncontrado.zip);
+                
                 alert(`¡Inicio de sesión exitoso! Bienvenido, ${usuarioEncontrado.firstName || 'Usuario'}`);
                 console.log("Usuario autenticado:", usuarioEncontrado);
                 
