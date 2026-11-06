@@ -148,7 +148,7 @@ import {User} from './User.js'
             //Coparamos el correo con la expresion
             if (!expRegular.test(emailtest)) {
                 //Si el formato no es correcto cuando el cliente pulse otro elemento le sale el fallo 
-                alert("El email esta mal escrito");
+                alert("El email esta mal escrito, ejemplo: Correo@gmail.com");
                 return false;
             }
         }
