@@ -26,7 +26,6 @@ import {User} from './User.js'
         //Elemento ojo 
         this.eye1 = document.getElementById("ojo1");
         this.eye2 = document.getElementById("ojo2");
-
         this.passwordConfirm = document.getElementById("confirmarPassword");
         /*
          * Inicializamos lo eventos todos los eventos que puede 
@@ -48,7 +47,7 @@ import {User} from './User.js'
         this.eye1.addEventListener("click", () => this.alternarPassword(this.eye1, this.password));
         this.eye2.addEventListener("click", () => this.alternarPassword(this.eye2, this.passwordConfirm));
         //Evento registrar, comprobamos todos los datos y hacemos el registro
-        this.form.addEventListener("submit", () => this.handleregistrar());
+        this.form.addEventListener("submit", (e) => this.handleregistrar(e));
     }
 
     //Funcion del boton 
@@ -128,8 +127,6 @@ import {User} from './User.js'
         }
         alert("Has dejado el campo vacio y es obligatorio");
         return false;
-
-
     }
     validarPhone() {
         const phoneTest = this.phone.value.trim();
@@ -177,20 +174,59 @@ import {User} from './User.js'
         return false;
     }
 
-    async handleregistrar() {
+    async handleregistrar(e) {
+        e.preventDefault();
+        const url = "/raj/webresources/entities.user";
         /*
-         * Llamamos a los metodos de validacion antes de enviar porque que el usuario lo primero q puede hacer es 
-         * dar al botn de registro sin pasar por todos los campos
+         * Llamamos a los métodos de validación antes de enviar, porque el usuario
+         * puede pulsar Registro sin pasar por todos los campos
          */
-        if (this.validarName() && this.validarSurname() && this.validarCity() && this.validarDireccion() && this.validarEmail()
-                && this.validarLocality() && this.validarMiddle() && this.validarPassword()
-                && this.validarPhone() && this.validarZipCode()) {
-            alert("Todos los datos han sido introducidos de manera correcta");
-        } else {
-            alert("Algunos de los datos introducidos no son correctos");
+
+        try {
+            if (this.validarName() && this.validarSurname() && this.validarCity() && this.validarDireccion() && this.validarEmail()
+                    && this.validarLocality() && this.validarMiddle() && this.validarPassword()
+                    && this.validarPhone() && this.validarZipCode()) {
+
+                const usuario = {
+                    firstName: this.name.value.trim(),
+                    lastName: this.surname.value.trim(),
+                    middleInitial: this.middlename.value.trim(),
+                    street: this.street.value.trim(),
+                    city: this.city.value.trim(),
+                    state: this.locality.value.trim(),
+                    zip: Number(this.zipCode.value.trim()),
+                    phone: Number(this.phone.value.trim()),
+                    email: this.email.value.trim(),
+                    password: this.password.value.trim()
+                };
+                console.log(JSON.stringify(usuario));
+
+                const respuesta = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(usuario)
+                });
+                   //Tengo q cambiarlo en casa
+                   
+                if (respuesta.status === 200 || respuesta.status === 204) {
+                    alert("Usuario creado correctamente");
+                    window.location.href = "signIn.html";
+                } else if (respuesta.status === 500) {
+                    alert("No se ha podido crear el usuario. Puede que el correo ya esté registrado");
+                } else {
+                    alert("Error inesperado, inténtalo más tarde");
+                }
+
+            } else {
+                alert("Algunos de los datos introducidos no son correctos");
+            }
+        } catch (error) {
+            console.error("Algo ha fallado:", error);
+            alert("Error inesperado, inténtalo más tarde");
         }
     }
-
 }
 // Con este evento hacemos que carge la clase y con eso el constructor
 
