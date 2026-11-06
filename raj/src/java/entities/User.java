@@ -7,6 +7,8 @@ package entities;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
@@ -16,6 +18,7 @@ import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.math.BigInteger;
+
 
 /**
  *
@@ -37,7 +40,7 @@ import java.math.BigInteger;
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByState", query = "SELECT u FROM User u WHERE u.state = :state"),
     @NamedQuery(name = "User.findByStreet", query = "SELECT u FROM User u WHERE u.street = :street")})
-public class User implements Serializable {
+    public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Column(name = "zip")
@@ -46,6 +49,7 @@ public class User implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)    
     private Long id;
     @Column(name = "phone")
     private BigInteger phone;

@@ -92,11 +92,8 @@
             </div>
         </section>
         <!-- Controlador del cambio de contraseña (clase en js/passwordcontroller.js).
-             type="module" porque la clase usa export. -->
-          <script type="module">
-      import { PasswordController } from "./js/passwordcontroller.js";
-      new PasswordController();
-  </script>
+            Script normal (sin type="module"): el propio archivo se arranca con DOMContentLoaded. -->
+          <script type="module" src="js/passwordcontroller.js"></script>
  
     </body>
 </html>
