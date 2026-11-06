@@ -44,13 +44,11 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column(name = "zip")
     private Integer zip;
-    /* @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "id")
-    private Long id;*/
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //lE dice al json q no espere un id y que se el auto incremento
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
     @Column(name = "phone")
