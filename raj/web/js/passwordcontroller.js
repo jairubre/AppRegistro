@@ -1,181 +1,166 @@
-import { User } from './User.js';
 
 class PasswordController {
-    
+ 
     constructor() {
-        // Inicializamos los elementos del formulario
+        // Elementos del formulario
         this.form = document.getElementById("changePasswordForm");
-        this.inputActual = document.getElementById("currentPassword");
-        this.inputNueva = document.getElementById("newPassword");
-        this.inputRepetida = document.getElementById("confirmPassword");
-        
-        // Botones del "ojo" (si usas la misma estructura que en el login)
-        this.ojoActual = document.getElementById("ojoActual");
-        this.ojoNueva = document.getElementById("ojoNueva");
-        this.ojoRepetida = document.getElementById("ojoRepetida");
-
-        // Eventos de validación al salir de cada campo (blur)
-        this.inputActual.addEventListener("blur", () => this.validarPasswordActual());
-        this.inputNueva.addEventListener("blur", () => this.validarPasswordNueva());
-        this.inputRepetida.addEventListener("blur", () => this.validarPasswordRepetida());
-        
-        // Evento submit para enviar el contenido
+        this.actual = document.getElementById("currentPassword");
+        this.nueva = document.getElementById("newPassword");
+        this.repetida = document.getElementById("confirmPassword");
+        this.mensaje = document.getElementById("responseMessage");
+        this.boton = this.form.querySelector('button[type="submit"]');
+        this.textoBoton = this.boton.textContent;
+ 
+        this.enviando = false;      // true mientras hay una petición en curso
+        this.intentosFallidos = 0;
+        this.bloqueadoHasta = 0;
+ 
+        this.mensaje.setAttribute("role", "alert");
+ 
+        // Al salir de un campo con contenido se valida (sin alert, sin bloquear la página)
+        [this.actual, this.nueva, this.repetida].forEach((campo) => {
+            campo.addEventListener("blur", () => campo.value.trim() && this.validar(campo));
+        });
+ 
+        // Botones "ojo": no tienen id, se buscan por clase y cada uno actúa sobre su input
+        this.form.querySelectorAll(".ver-password").forEach((boton) => {
+            boton.addEventListener("click", () => this.alternarVisibilidad(boton));
+        });
+ 
         this.form.addEventListener("submit", (e) => this.enviarCambio(e));
-        
-        // Eventos para ver/ocultar contraseña
-        if (this.ojoActual) this.ojoActual.addEventListener("click", () => this.alternarPassword(this.ojoActual, this.inputActual));
-        if (this.ojoNueva) this.ojoNueva.addEventListener("click", () => this.alternarPassword(this.ojoNueva, this.inputNueva));
-        if (this.ojoRepetida) this.ojoRepetida.addEventListener("click", () => this.alternarPassword(this.ojoRepetida, this.inputRepetida));
     }
-        
-    // Función del botón "ojo"
-    alternarPassword(btn, input) {
-        if (input.type === "password") {
-            input.type = "text";
-            btn.setAttribute("aria-pressed", "true");
-        } else {
-            input.type = "password";
-            btn.setAttribute("aria-pressed", "false");
-        }
+ 
+    // ---------- Interfaz ----------
+ 
+    mostrarMensaje(texto, color = "#b3261e") {
+        this.mensaje.textContent = texto;
+        this.mensaje.style.color = color;
+        this.mensaje.style.textAlign = "center";
     }
-      
-    validarPasswordActual() {
-        const passwordActual = this.inputActual.value.trim();
-        if (passwordActual === "") { 
-            alert("Es obligatorio rellenar la contraseña actual");
-            return false;
-        }
-        return true;
+ 
+    // Bloquea el botón mientras se procesa, para que no se pueda pulsar varias veces
+    ocupado(estado) {
+        this.enviando = estado;
+        this.boton.disabled = estado;
+        this.boton.textContent = estado ? "Actualizando..." : this.textoBoton;
     }
-
-    validarPasswordNueva() {
-        const passwordNueva = this.inputNueva.value.trim();
-        const expRegular = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/; // Misma regla que en tu login
-        
-        if (passwordNueva === "") {
-            alert("Es obligatorio rellenar la nueva contraseña");
-            return false;
-        }
-        if (!expRegular.test(passwordNueva)) {
-            alert("La nueva contraseña debe tener al menos 8 caracteres y contener una minúscula y un número.");
-            return false;
-        }
-        return true;
-    }
-
-    validarPasswordRepetida() {
-        const passwordNueva = this.inputNueva.value.trim();
-        const passwordRepetida = this.inputRepetida.value.trim();
-        
-        if (passwordRepetida === "") {
-            alert("Es obligatorio confirmar la nueva contraseña");
-            return false;
-        }
-        if (passwordRepetida !== passwordNueva) {
-            alert("Las nuevas contraseñas no coinciden.");
-            return false;
-        }
-        return true;
-    }
-
-    // Método asíncrono principal (con PUT, ID y sessionStorage)
-    async enviarCambio(e) {
-        e.preventDefault();
-        
-        // Validamos todos los campos antes de enviar
-        if (!this.validarPasswordActual() || !this.validarPasswordNueva() || !this.validarPasswordRepetida()) {
-            console.log("Validación fallida. No se puede enviar el formulario.");
-            return;
-        }
-        
-        // Recuperamos el ID y los datos del usuario desde el sessionStorage
-        //const userId = sessionStorage.getItem('userId');
-        const userId= 299985563;
-        
-        if (!userId) {
-            alert("No hay una sesión activa. Por favor, inicia sesión de nuevo.");
-            window.location.href = "signIn.html";
-            return;
-        }
-
-        const url = `http://localhost:8080/raj/webresources/entities.user/{id}`;
-        
-        const passwordActualIngresada = this.inputActual.value.trim();
-        const passwordNuevaIngresada = this.inputNueva.value.trim();
-        const passwordGuardadaActual = sessionStorage.getItem('userPassword');
-
-        // Comprobación de seguridad con la contraseña actual en sesión
-        if (passwordGuardadaActual && passwordActualIngresada !== passwordGuardadaActual) {
-            alert("La contraseña actual no es correcta.");
-            this.inputActual.value = "";
-            this.inputActual.focus();
-            return;
-        }
-
-        try {
-            // Reconstruimos el objeto con los datos de sesión para hacer el PUT
-            const usuarioActualizado = {
-                id: userId,
-                city: sessionStorage.getItem('userCity'),
-                email: sessionStorage.getItem('userEmail'),
-                firstName: sessionStorage.getItem('userFirstName'),
-                lastName: sessionStorage.getItem('userLastName'),
-                middleInitial: sessionStorage.getItem('userMiddleInitial'),
-                password: passwordNuevaIngresada,
-                phone: sessionStorage.getItem('userPhone'),
-                state: sessionStorage.getItem('userState'),
-                street: sessionStorage.getItem('userStreet'),
-                zip: sessionStorage.getItem('userZip')
-            };
-               console.log(JSON.stringify(usuarioActualizado));
-            const response = await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(usuarioActualizado)
-            });
-
-            if (!response.ok) {
-                throw new Error("Error al conectar con el servidor o actualizar la contraseña.");
-            }
-
-            // Actualizamos el sessionStorage
-            sessionStorage.setItem('usuarioLogueado', JSON.stringify(usuarioActualizado));
-            sessionStorage.setItem('userPassword', passwordNuevaIngresada);
-
-            alert("¡Contraseña actualizada con éxito!");
-            console.log("Contraseña modificada correctamente para el usuario ID:", userId);
-            
-            this.form.reset();
-            window.location.href = "mainPage.html";
-
-        } catch (error) {
-            console.error("Hubo un error en la petición fetch:", error);
-            alert("No se pudo completar la solicitud de cambio de contraseña.");
-        }
-    }
-
-// ============================================================
-    // MÉTODOS DE UI (GESTIÓN DE LOS OJOS)
-    // ============================================================
-
-    inputDelOjo(boton) {
-        return boton.closest(".campo-password").querySelector("input");
-    }
-
+ 
     alternarVisibilidad(boton) {
-        const input = this.inputDelOjo(boton);
+        const input = boton.closest(".campo-password").querySelector("input");
         const mostrar = input.type === "password";
-
         input.type = mostrar ? "text" : "password";
         boton.setAttribute("aria-pressed", String(mostrar));
         boton.setAttribute("aria-label", mostrar ? "Ocultar contraseña" : "Mostrar contraseña");
     }
+ 
+    // ---------- Validación ----------
+ 
+    // Devuelve el texto del error, o "" si el campo es correcto
+    errorDe(campo) {
+        const valor = campo.value.trim();
+        if (campo === this.actual) {
+            return valor ? "" : "Es obligatorio rellenar la contraseña actual";
+        }
+        if (campo === this.nueva) {
+            if (!valor) return "Es obligatorio rellenar la nueva contraseña";
+            if (!/^(?=.*[A-Z])(?=.*[0-9]).{8,}$/.test(valor)) return "La nueva contraseña debe tener al menos 8 caracteres, una mayúscula y un número.";
+            if (valor === this.actual.value.trim()) return "La nueva contraseña debe ser distinta de la actual.";
+            return "";
+        }
+        if (!valor) return "Es obligatorio confirmar la nueva contraseña";
+        return valor === this.nueva.value.trim() ? "" : "Las nuevas contraseñas no coinciden.";
+    }
+ 
+    validar(campo) {
+        const error = this.errorDe(campo);
+        this.mostrarMensaje(error);
+        return !error;
+    }
+ 
+    // ---------- Comunicación con el servidor ----------
+ 
+    // fetch con límite de tiempo; lanza error si el estado no es 2xx
+    async pedir(url, opciones = {}) {
+        const control = new AbortController();
+        const temporizador = setTimeout(() => control.abort(), 8000);   // si el servidor tarda más de 8 s, se cancela
+        try {
+            const respuesta = await fetch(url, {
+                ...opciones,
+                signal: control.signal,
+                headers: { "Accept": "application/json", ...opciones.headers }
+            });
+            if (!respuesta.ok) throw new Error("Estado " + respuesta.status);
+            return respuesta;
+        } finally {
+            clearTimeout(temporizador);
+        }
+    }
+ 
+    async enviarCambio(e) {
+        e.preventDefault();
+        if (this.enviando) return;   // ya hay un envío en curso: se ignoran las pulsaciones repetidas
+ 
+        const espera = Math.ceil((this.bloqueadoHasta - Date.now()) / 1000);
+        if (espera > 0) {
+            this.mostrarMensaje(`Demasiados intentos. Espera ${espera} segundos.`);
+            return;
+        }
+ 
+        // Se valida campo por campo y se para en el primer error
+        if (![this.actual, this.nueva, this.repetida].every((campo) => this.validar(campo))) return;
+ 
+        // El login del equipo debe guardar: sessionStorage.setItem("userId", ...)
+        const userId = sessionStorage.getItem("userId");
+        if (!userId) {
+            window.location.href = "signIn.html";
+            return;
+        }
+        const url = `http://localhost:8080/raj/webresources/entities.user/${userId}`;
+        let exito = false;
+ 
+        this.ocupado(true);
+        try {
+            // 1. Usuario completo desde el servidor
+            const usuario = await (await this.pedir(url)).json();
+ 
+            // 2. La contraseña actual debe coincidir con la guardada
+            if (usuario.password !== this.actual.value.trim()) {
+                if (++this.intentosFallidos >= 5) {   // 5 fallos seguidos con la contraseña actual
+                    this.bloqueadoHasta = Date.now() + 30000;   // bloqueo de 30 segundos
+                    this.intentosFallidos = 0;
+                }
+                this.actual.value = "";
+                this.actual.focus();
+                this.mostrarMensaje("La contraseña actual no es correcta.");
+                return;
+            }
+ 
+            // 3. Se cambia SOLO la contraseña y se envía el usuario completo
+            usuario.password = this.nueva.value.trim();
+            await this.pedir(url, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(usuario)
+            });
+ 
+            // 4. Se actualiza la sesión y se vuelve a la página principal
+            sessionStorage.setItem("usuarioLogueado", JSON.stringify(usuario));
+            sessionStorage.setItem("userPassword", usuario.password);
+            this.intentosFallidos = 0;
+            exito = true;   // el botón queda bloqueado hasta salir de la página
+            this.form.reset();
+            this.mostrarMensaje("¡Contraseña actualizada con éxito!", "#2e7d32");
+            setTimeout(() => { window.location.href = "mainPage.html"; }, 1200);
+ 
+        } catch (error) {
+            console.error("Error en la petición:", error);
+            this.mostrarMensaje(error.name === "AbortError"
+                ? "El servidor tarda demasiado en responder. Inténtalo de nuevo."
+                : "No se pudo completar la solicitud de cambio de contraseña.");
+        } finally {
+            if (!exito) this.ocupado(false);
+        }
+    }
 }
-
-// Inicializar el controlador al cargar el DOM
-document.addEventListener('DOMContentLoaded', () => {
-    new PasswordController();
-});
+ 
+document.addEventListener("DOMContentLoaded", () => new PasswordController());
