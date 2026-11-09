@@ -110,12 +110,13 @@ class PasswordController {
         if (![this.actual, this.nueva, this.repetida].every((campo) => this.validar(campo))) return;
  
         // El login del equipo debe guardar: sessionStorage.setItem("userId", ...)
+        
         const userId = sessionStorage.getItem("userId");
         if (!userId) {
             window.location.href = "signIn.html";
             return;
         }
-        const url = `http://localhost:8080/raj/webresources/entities.user/${userId}`;
+        const url = `webresources/entities.user/${userId}`;
         let exito = false;
  
         this.ocupado(true);
