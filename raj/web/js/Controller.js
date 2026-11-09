@@ -112,7 +112,7 @@ class SignInController {
        // 2. Validamos ambos campos antes de enviar
         const esEmailValido = this.validarEmail();
         const esPasswordValido = this.validarpassword();
-        const url = `http://localhost:8080/raj/webresources/entities.user`;
+        const url = `/raj/webresources/entities.user`;
         
        // Si alguno no es válido, detenemos el proceso
         if (!esEmailValido || !esPasswordValido) {
