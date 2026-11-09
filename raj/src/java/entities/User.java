@@ -16,6 +16,8 @@ import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.math.BigInteger;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 
 /**
  *
@@ -42,9 +44,11 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column(name = "zip")
     private Integer zip;
-    @Id
     @Basic(optional = false)
     @NotNull
+    @Id
+    //lE dice al json q no espere un id y que se el auto incremento
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
     @Column(name = "phone")
@@ -194,5 +198,5 @@ public class User implements Serializable {
     public String toString() {
         return "entities.User[ id=" + id + " ]";
     }
-    
+
 }
