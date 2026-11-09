@@ -16,6 +16,8 @@ import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.math.BigInteger;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 
 /**
  *
@@ -42,9 +44,11 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column(name = "zip")
     private Integer zip;
-    @Id
     @Basic(optional = false)
     @NotNull
+    @Id
+    //lE dice al json q no espere un id y que se el auto incremento
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
     @Column(name = "phone")
@@ -54,7 +58,7 @@ public class User implements Serializable {
     private String city;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 255)
-    @Column(name = "email")
+    @Column(name = "email",unique=true)
     private String email;
     @Size(max = 255)
     @Column(name = "firstName")
@@ -194,5 +198,5 @@ public class User implements Serializable {
     public String toString() {
         return "entities.User[ id=" + id + " ]";
     }
-    
+
 }
