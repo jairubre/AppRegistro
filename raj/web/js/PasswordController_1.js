@@ -77,24 +77,9 @@ class PasswordController {
         return !error;
     }
  
-    // ---------- Comunicación con el servidor ----------
+   
  
-    // fetch con límite de tiempo; lanza error si el estado no es 2xx
-    async pedir(url, opciones = {}) {
-        const control = new AbortController();
-        const temporizador = setTimeout(() => control.abort(), 8000);   // si el servidor tarda más de 8 s, se cancela
-        try {
-            const respuesta = await fetch(url, {
-                ...opciones,
-                signal: control.signal,
-                headers: { "Accept": "application/json", ...opciones.headers }
-            });
-            if (!respuesta.ok) throw new Error("Estado " + respuesta.status);
-            return respuesta;
-        } finally {
-            clearTimeout(temporizador);
-        }
-    }
+   
  
     async enviarCambio(e) {
         e.preventDefault();
@@ -110,7 +95,12 @@ class PasswordController {
         if (![this.actual, this.nueva, this.repetida].every((campo) => this.validar(campo))) return;
  
         // El login del equipo debe guardar: sessionStorage.setItem("userId", ...)
-        
+        const usuario = JSON.parse(sessionStorage.getItem("usuarioLogueado"));
+        if (!usuario) {
+            window.location.href = "signIn.html";
+            return;
+        }
+
         const userId = sessionStorage.getItem("userId");
         if (!userId) {
             window.location.href = "signIn.html";
@@ -118,11 +108,10 @@ class PasswordController {
         }
         const url = `webresources/entities.user/${userId}`;
         let exito = false;
- 
+
         this.ocupado(true);
         try {
-            // 1. Usuario completo desde el servidor
-            const usuario = await (await this.pedir(url)).json();
+        
  
             // 2. La contraseña actual debe coincidir con la guardada
             if (usuario.password !== this.actual.value.trim()) {
@@ -137,8 +126,8 @@ class PasswordController {
             }
  
             // 3. Se cambia SOLO la contraseña y se envía el usuario completo
-            usuario.password = this.nueva.value.trim();
-            await this.pedir(url, {
+             usuario.password = this.nueva.value.trim();
+            const respuesta = await fetch(url, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(usuario)
