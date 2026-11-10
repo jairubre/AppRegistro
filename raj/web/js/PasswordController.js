@@ -129,6 +129,7 @@ class PasswordController {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(usuario)
             });
+           if (!respuesta.ok) throw new Error("Estado " + respuesta.status);
  
             // 4. Se actualiza la sesión y se vuelve a la página principal
             sessionStorage.setItem("usuarioLogueado", JSON.stringify(usuario));
@@ -139,11 +140,10 @@ class PasswordController {
             this.mostrarMensaje("¡Contraseña actualizada con éxito!", "#2e7d32");
             setTimeout(() => { window.location.href = "mainPage.html"; }, 1200);
  
-        } catch (error) {
-            console.error("Error en la petición:", error);
-            this.mostrarMensaje(error.name === "AbortError"
-                ? "El servidor tarda demasiado en responder. Inténtalo de nuevo."
-                : "No se pudo completar la solicitud de cambio de contraseña.");
+       } catch (error) {
+       console.error("Error en la petición:", error);
+       this.mostrarMensaje("No se pudo guardar el cambio. Inténtalo de nuevo.");
+  
         } finally {
             if (!exito) this.ocupado(false);
         }
