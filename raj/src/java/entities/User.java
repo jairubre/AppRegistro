@@ -199,4 +199,6 @@ public class User implements Serializable {
         return "entities.User[ id=" + id + " ]";
     }
 
+
+
 }
