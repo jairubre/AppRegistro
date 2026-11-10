@@ -78,9 +78,6 @@ class PasswordController {
     }
  
    
- 
-   
- 
     async enviarCambio(e) {
         e.preventDefault();
         if (this.enviando) return;   // ya hay un envío en curso: se ignoran las pulsaciones repetidas
