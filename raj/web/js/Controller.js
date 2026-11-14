@@ -60,7 +60,7 @@ class SignInController {
         
     /**
      * @todo: Utilizar la misma expresión regular que se utiliza en SignUp para 
-     *        validar el requisito de contraseña. Modificar el mensaje de error 
+     *        validar el email. Modificar el mensaje de error 
      *        correspondiente si es necesario.
      * @returns {Boolean}
      */  
