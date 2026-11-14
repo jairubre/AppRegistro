@@ -9,6 +9,11 @@ import {User} from './User.js'
 //const letras = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]+$/;
 
 class SignInController {
+    /**
+     *  @todo: Al cargar la página comprobar si está almacenado el email de un usuario 
+     *         en el sessionStorage y cargarlo en el campo email del formulario.
+     * @returns {SignInController}
+     */
     constructor() {
         //console.log("2. Constructor ejecutado");
         
@@ -53,8 +58,13 @@ class SignInController {
         }
     }
         
-      
-        validarEmail() {
+    /**
+     * @todo: Utilizar la misma expresión regular que se utiliza en SignUp para 
+     *        validar el requisito de contraseña. Modificar el mensaje de error 
+     *        correspondiente si es necesario.
+     * @returns {Boolean}
+     */  
+    validarEmail() {
     // Nos guardamos el dato recogido en el campo email
     const validaEmail = this.email.value.trim(); // .trim() quita espacios accidentales al inicio/final
     
@@ -73,38 +83,39 @@ class SignInController {
         return false;
     }
     
-    // 3. Si pasa ambas validaciones, todo está correcto
+    // 3. Si pasa ambas validaciones, está correcto
     return true;
 }
 
     validarpassword(){
         //nos guardamos el dato recogido en el campo email. 
         const validarContrasena = this.password.value.trim();
-        
         // Expresión regular para validar el formato del email
         // exige que la contraseña tenga 8 catracteres y que contenga una minus
        const expRegular = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
-        
         // 1. Comprobar si el campo está vacío
         if(validarContrasena ===""){
               alert("Es obligatorio rellenar el campo");
                return false;
         }
-        
          // 2. Comprobar si el formato del email es incorrecto
-    if (!expRegular.test(validarContrasena)) {
-        // si sale este mensaje es que no cumple ni el requisito. 
-        alert("correo o contraseña mal ");
-        return false;
-    }
-        
-        // 3. Si pasa ambas validaciones, todo está correcto
+        if (!expRegular.test(validarContrasena)) {
+            // si sale este mensaje es que no cumple ni el requisito. 
+            alert("correo o contraseña mal ");
+            return false;
+        }
+        // 3. Si pasa ambas validaciones,  está correcto
         return true;
-        
-        
     }
-   //si usas fetch tienes que ser asincrono, fetch envia una peticion 
-   
+   /**
+    * @todo Cambiar la muestra de errores de alert() por el uso de un elemento de 
+    *       la página y su propiedad .textContent.
+    * @todo Crear un objeto de la clase User para encapsular el email y la password 
+    *       antes de buscarlo  en la colección de usuarios recibido desde el servidor.
+    *       
+    * @param {type} e
+    * @returns {undefined}
+    */
    async handlersesion(e){
        //para evitar el burbujeo de eventos
        e.preventDefault();
