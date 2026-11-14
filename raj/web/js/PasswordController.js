@@ -77,7 +77,13 @@ class PasswordController {
         return !error;
     }
  
-   
+    /**
+     * @todo Comentar todas las sentencias
+     * @todo Usar un objeto de la clase User para encapsularlos datos del usuario 
+     *       al obtenerlos del sessionStorage.
+     * @param {type} e
+     * @returns {undefined}
+     */
     async enviarCambio(e) {
         e.preventDefault();
         if (this.enviando) return;   // ya hay un envío en curso: se ignoran las pulsaciones repetidas
