@@ -8,7 +8,11 @@ import {User} from './User.js'
 
 //Es una expresion regular que me comprueba que el campo solo contiene letras
 
-        class SignUpController {
+class SignUpController {
+    /**
+     * @todo Usar document.querySelectorAll y forEach() para alternar visibilidad de las contraseñas.
+     * @returns {SignUpController}
+     */
     constructor() {
         console.log("2. Constructor ejecutado");
         //Inicializamos lo elementos del formulario
@@ -173,7 +177,14 @@ import {User} from './User.js'
         alert("Tienes el primer campo de contraseña vacio");
         return false;
     }
-
+    /**
+     * @todo Comentar todas las sentencias de este method.
+     * @todo Cambiar la muestra de errores de alert() por el uso de un elemento de la página y su propiedad .textContent.
+     * @todo Después de un signup exitoso guardar en el sessionStorage el email para que lo cargue la página de sigIn.
+     * @todo Usar clase User para encapsular los datos del nuevo usuario antes de registrarlo en lugar de la variable usuario.
+     * @param {type} e
+     * @returns {undefined}
+     */
     async handleregistrar(e) {
         e.preventDefault();
         const url = "/raj/webresources/entities.user";
