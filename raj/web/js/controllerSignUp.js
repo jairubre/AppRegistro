@@ -62,18 +62,23 @@ import {User} from './User.js'
     }
 
     validarName() {
+        const mensajeError = document.getElementById("errorNombre");
         const nameTest = this.name.value.trim();
         const ExpName = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]+$/;
         if (nameTest !== "") {
             if (ExpName.test(nameTest)) {
                 return true;
             } else {
-                alert("Introduce solo letras");
+                mensajeError.textContent = "Has introducido un fomato incorrecto";
+                mensajeError.style.color = "red";
+                mensajeError.hidden = false;
                 return false;
             }
 
         }
-        alert("No puedes dejar este campo vacio es obligatorio");
+        mensajeError.textContent = "No puedes dejar este espacio en blanco";
+        mensajeError.style.color = "red";
+        mensajeError.hidden = false;
         return false;
     }
 
@@ -208,8 +213,8 @@ import {User} from './User.js'
                     },
                     body: JSON.stringify(usuario)
                 });
-                   //Tengo q cambiarlo en casa
-                   
+                //Tengo q cambiarlo en casa
+
                 if (respuesta.status === 200 || respuesta.status === 204) {
                     alert("Usuario creado correctamente");
                     window.location.href = "signIn.html";

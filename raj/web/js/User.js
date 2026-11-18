@@ -25,6 +25,21 @@ class User {
                 json.street, json.city, json.state, json.zip, json.phone,
                 json.email, json.password);
     }
-
+    /*
+     toXML() {
+     return `<user>
+     <firstName>${this.firstName}</firstName>
+     <lastName>${this.lastName}</lastName>
+     <middleInitial>${this.middleInitial}</middleInitial>
+     <street>${this.street}</street>
+     <city>${this.city}</city>
+     <state>${this.state}</state>
+     <zip>${this.zip}</zip>
+     <phone>${this.phone}</phone>
+     <email>${this.email}</email>
+     <password>${this.password}</password>
+     </user>`;
+     }
+     */
 }
 export{User};
