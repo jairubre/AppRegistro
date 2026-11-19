@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+        <link rel="shortcut icon" href="assets/images/logo5.png" type="image/x-icon">
+        <meta name="description" content="">
+
+        <title>RAJ - Registro</title>
+        <link rel="stylesheet" href="css/style.css" title="Claro">
+        <link rel="alter stylesheet" href="css/alterStyle.css" title="Oscuro">
+        <!-- Estilos del ojito para mostrar u ocultar la contraseña -->
+
+    </head>
+    <body>
+
+        <section class="form6 form-registro" id="registro">
+
+            <div class="container">
+                <div class="mbr-section-head">
+                    <h3 class="mbr-section-title"><strong>Registro</strong></h3>
+                </div>
+
+                <div class="row">
+                    <form action="/raj/webresources/entities.user" method="POST" class="mbr-form" id="formRegistro">
+                        <div class="dragArea row">
+
+                            <!-- Nombre y apellido -->
+                            <div class="campos-2">
+                                <div class="form-group">
+                                    <input type="text" name="nombre" placeholder="Nombre" class="form-control" id="nombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="apellido" placeholder="Apellido" class="form-control" id="apellido" required>
+                                </div>
+                            </div>
+
+                            <!-- Nombre compuesto (opcional) -->
+                            <div class="form-group">
+                                <input type="text" name="nombreCompuesto" placeholder="Nombre compuesto" class="form-control" id="nombreCompuesto">
+                                <p class="ayuda">Este campo es opcional, no hace falta rellenarlo.</p>
+                            </div>
+
+                            <!-- Dirección -->
+                            <div class="form-group">
+                                <input type="text" name="calle" placeholder="Calle" class="form-control" id="calle" required>
+                            </div>
+
+                            <div class="campos-2">
+                                <div class="form-group">
+                                    <input type="text" name="ciudad" placeholder="Ciudad" class="form-control" id="ciudad" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="localidad" placeholder="Localidad" class="form-control" id="localidad" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" name="codigoPostal" placeholder="Código postal" class="form-control" id="codigoPostal"
+                                       inputmode="numeric" pattern="[0-9]{5}" minlength="5" maxlength="5"
+                                       title="El código postal debe tener exactamente 5 números" required>
+                            </div>
+
+                            <!-- Contacto -->
+                            <div class="campo-telefono">
+
+                                <div class="form-group">
+                                    <input type="tel" name="telefono" placeholder="Teléfono" class="form-control" id="telefono" 
+                                           inputmode="numeric" pattern="[6789][0-9]{8}" maxlength="9"
+                                           title="El teléfono debe tener 9 cifras y empezar por 6, 7, 8 o 9" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="email" name="email" placeholder="Correo electrónico" class="form-control" id="email" 
+                                       pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" maxlength="255"
+                                       title="" required>
+                            </div>
+
+                            <!-- Contraseña -->
+                            <div class="form-group">
+                                <div class="campo-password">
+                                    <input type="password" name="password" placeholder="Contraseña" class="form-control" id="password"
+                                           pattern="(?=.*[A-Z])(?=.*[0-9]).{8,}"
+                                           title="Mínimo 8 caracteres, con al menos una mayúscula,  y un número" required>
+                                    <button type="button" class="ver-password" data-target="password" aria-label="Mostrar contraseña" aria-pressed="false">
+                                        <svg id="ojo1" class="icono-ver" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                       <!-- <svg id="ojo" class="icono-ocultar" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>-->
+                                    </button>
+                                </div>
+
+                                <ul class="requisitos" id="requisitos">
+                                    <li id="req-longitud">Mínimo 8 caracteres</li>
+                                    <li id="req-mayuscula">Al menos una mayúscula</li>
+                                    <li id="req-numero">Al menos un número</li>
+                                </ul>
+                            </div>
+
+                            <!-- Confirmar contraseña -->
+                            <div class="form-group">
+                                <div class="campo-password">
+                                    <input type="password" name="confirmarPassword" placeholder="Confirmar contraseña" class="form-control" id="confirmarPassword" required>
+                                    <button type="button" class="ver-password" data-target="confirmarPassword" aria-label="Mostrar contraseña" aria-pressed="false">
+                                        <svg id="ojo2" class="icono-ver" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                      <!--  <svg class="icono-ocultar" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="  round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11                                              8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>-->         
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mbr-section-btn">
+                                <button type="submit" class="btn btn-primary">Registro</button>
+                            </div>
+
+                            <div class="registro">
+                                <a href="index.html">Volver</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <script src="./js/controllerSignUp.js" type="module"></script>
+
+
+
+    </body>
+</html>
