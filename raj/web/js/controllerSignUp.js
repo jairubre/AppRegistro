@@ -246,7 +246,7 @@ import {User} from './User.js'
                         && this.validarLocality() && this.validarMiddle() && this.validarPassword()
                         && this.validarPhone() && this.validarZipCode()) {
 
-
+                  //Nos creamos una clase de user para guardar todos los campos de mi formulario
                 const user = new User(
                         id = 0,
                         this.name.value.trim(),
@@ -260,6 +260,7 @@ import {User} from './User.js'
                         this.email.value.trim(),
                         this.password.value.trim()
                         );
+                        //Guardamos en el onjeto en JSON
                         const userJson = (
                                 fistname: user.firstName,
                                 lastName: user.lastName,
@@ -287,6 +288,7 @@ import {User} from './User.js'
                          };*/
                         console.log(JSON.stringify(userJson));
                         //console.log(JSON.stringify(usuario));
+                        //Creamos la respuesta para para enviarla al servidor en modo json
                         const respuesta = await fetch(url, {
                         method: "POST",
                                 headers: {
@@ -294,9 +296,10 @@ import {User} from './User.js'
                                 },
                                 body: JSON.stringify(usuario)
                         });
-                        //Tengo q cambiarlo en casa
+                        //Comprobamos la respuesta que nos da el servidor 
 
                         if (respuesta.status === 200 || respuesta.status === 204) {
+                            //Si no devuelve estado 200 0 204 mostramos mensaje error y guardamos en la sesión el correo para poder recogerlo en el SignIn
                 this.errorEnvio.textContent = "El correo ha sido registrado";
                         this.errorEnvio.style.color = "green";
                         this.errorEnvio.hidden = false;
@@ -309,6 +312,7 @@ import {User} from './User.js'
                         
                 } else if (respuesta.status === 500) {
                 //alert("No se ha podido crear el usuario. Puede que el correo ya esté registrado");
+                //si nos devuelve erros 500 le decimos q no se ha podio registrar el usuario 
                 this.errorEnvio.textContent = "No se ha podido crear el usuario. Puede que el correo ya esté registrado";
                         this.errorEnvio.style.color = "red";
                         this.errorEnvio.hidden = false;
