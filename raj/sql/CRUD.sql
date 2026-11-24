@@ -51,9 +51,10 @@ CREATE TABLE category (
 ) ENGINE = InnoDB;
 
 -- ---------------------------------------------------------------------
--- PRODUCT (id PK, name, description, brand, imageUrl, price, stock,
---          category_id FK -> CATEGORY.id)
+-- PRODUCT (id PK, name, description, brand, imageUrl, price, stock)
 -- · imageUrl guarda la RUTA o URL de la imagen, no la imagen en sí
+-- · ya no tiene category_id: la relación con CATEGORY es N:M y va en
+--   la tabla intermedia product_category
 -- ---------------------------------------------------------------------
 CREATE TABLE product (
     id          BIGINT        NOT NULL,
@@ -63,12 +64,29 @@ CREATE TABLE product (
     imageUrl    VARCHAR(500),
     price       DECIMAL(10,2) NOT NULL,
     stock       INT           NOT NULL DEFAULT 0,
-    category_id BIGINT        NOT NULL,
-    CONSTRAINT pk_product          PRIMARY KEY (id),
-    CONSTRAINT fk_product_category FOREIGN KEY (category_id)
-        REFERENCES category (id),
-    CONSTRAINT ck_product_price    CHECK (price >= 0),
-    CONSTRAINT ck_product_stock    CHECK (stock >= 0)
+    CONSTRAINT pk_product       PRIMARY KEY (id),
+    CONSTRAINT ck_product_price CHECK (price >= 0),
+    CONSTRAINT ck_product_stock CHECK (stock >= 0)
+) ENGINE = InnoDB;
+
+-- ---------------------------------------------------------------------
+-- PRODUCT_CATEGORY (product_id  PK FK -> PRODUCT.id,
+--                   category_id PK FK -> CATEGORY.id)
+-- · Sale de la relación N:M "pertenece": un producto puede estar en
+--   varias categorías y una categoría tiene varios productos
+-- · ON DELETE CASCADE: si se borra un producto o una categoría, se borran
+--   sus filas de esta tabla (no los productos ni las categorías)
+-- ---------------------------------------------------------------------
+CREATE TABLE product_category (
+    product_id  BIGINT NOT NULL,
+    category_id BIGINT NOT NULL,
+    CONSTRAINT pk_product_category PRIMARY KEY (product_id, category_id),
+    CONSTRAINT fk_pc_product  FOREIGN KEY (product_id)
+        REFERENCES product (id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_pc_category FOREIGN KEY (category_id)
+        REFERENCES category (id)
+        ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -136,22 +154,33 @@ INSERT INTO category (id, nameCategory, parentCategory_id) VALUES
     (5, 'Proteína whey',         1),    -- subcategorías de Proteínas
     (6, 'Proteína vegetal',      1);
 
-INSERT INTO product (id, name, description, brand, imageUrl, price, stock, category_id) VALUES
+INSERT INTO product (id, name, description, brand, imageUrl, price, stock) VALUES
     (1, 'Whey Protein 1kg',
         'Proteína de suero de leche con 24 g de proteína por toma. Sabor chocolate.',
-        'RAJ Nutrition', 'img/products/whey-1kg.webp', 29.99, 50, 5),
+        'RAJ Nutrition', 'img/products/whey-1kg.webp', 29.99, 50),
     (2, 'Proteína de guisante 1kg',
         'Proteína vegetal apta para veganos. Sabor neutro.',
-        'RAJ Nutrition', 'img/products/pea-1kg.webp', 27.99, 30, 6),
+        'RAJ Nutrition', 'img/products/pea-1kg.webp', 27.99, 30),
     (3, 'Creatina Monohidrato 300g',
         'Creatina monohidrato micronizada, 3 g por toma.',
-        'RAJ Nutrition', 'img/products/creatina-300g.webp', 19.99, 80, 2),
+        'RAJ Nutrition', 'img/products/creatina-300g.webp', 19.99, 80),
     (4, 'Pre-entreno Explosive',
         'Pre-entreno con cafeína y beta-alanina. Sabor frutos rojos.',
-        'RAJ Nutrition', 'img/products/preworkout.webp', 24.99, 40, 3),
+        'RAJ Nutrition', 'img/products/preworkout.webp', 24.99, 40),
     (5, 'Omega 3 90 cápsulas',
         'Aceite de pescado con EPA y DHA.',
-        'RAJ Nutrition', 'img/products/omega3.webp', 12.99, 60, 4);
+        'RAJ Nutrition', 'img/products/omega3.webp', 12.99, 60);
+
+-- Un mismo producto puede estar en varias categorías
+INSERT INTO product_category (product_id, category_id) VALUES
+    (1, 5),   -- Whey          -> Proteína whey
+    (1, 4),   --               -> Salud y recuperación
+    (2, 6),   -- Guisante      -> Proteína vegetal
+    (3, 2),   -- Creatina      -> Fuerza y rendimiento
+    (3, 4),   --               -> Salud y recuperación
+    (4, 3),   -- Pre-entreno   -> Energía e intensidad
+    (4, 2),   --               -> Fuerza y rendimiento
+    (5, 4);   -- Omega 3       -> Salud y recuperación
 
 -- ---------------------------------------------------------------------
 -- Usuarios de prueba (contraseñas en texto plano)
@@ -164,4 +193,3 @@ INSERT INTO `user` (id, firstName, lastName, middleInitial, street, city, state,
         '28013', '+34 600000001', 'admin@raj.com', 'admin123', 'ADMIN'),
     (2, 'Jaime', 'Ruiz', 'R', 'Calle Gran Vía 10', 'Madrid', 'Madrid',
         '28013', '+34 600000002', 'usuario@raj.com', 'user123', 'USER');
-
