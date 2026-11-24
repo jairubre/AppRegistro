@@ -55,7 +55,7 @@ import {User} from './User.js'
                 /* this.eye1.addEventListener("click", () => this.alternarPassword(this.eye1, this.password));
                  this.eye2.addEventListener("click", () => this.alternarPassword(this.eye2, this.passwordConfirm));*/
                 this.form.querySelectorAll(".ver-password").forEach((boton) => {
-        boton.addEventListener("click", () => this.alternarVisibilidad(boton));
+                boton.addEventListener("click", () => this.alternarVisibilidad(boton));
         });
                 //Evento registrar, comprobamos todos los datos y hacemos el registro
                 this.form.addEventListener("submit", (e) => this.handleregistrar(e));
@@ -248,7 +248,7 @@ import {User} from './User.js'
 
                   //Nos creamos una clase de user para guardar todos los campos de mi formulario
                 const user = new User(
-                        id = 0,
+                        null,
                         this.name.value.trim(),
                         this.surname.value.trim(),
                         this.middlename.value.trim(),
@@ -260,33 +260,7 @@ import {User} from './User.js'
                         this.email.value.trim(),
                         this.password.value.trim()
                         );
-                        //Guardamos en el onjeto en JSON
-                        const userJson = (
-                                fistname: user.firstName,
-                                lastName: user.lastName,
-                                middleInitial: user.middleInitial,
-                                street: user.street,
-                                city: user.city,
-                                state: user.state,
-                                zip: user.zip,
-                                phone: user.phone,
-                                email: user.email,
-                                password: user.password
-                                );
-                        /*
-                         const usuario = {
-                         firstName: this.name.value.trim(),
-                         lastName: this.surname.value.trim(),
-                         middleInitial: this.middlename.value.trim(),
-                         street: this.street.value.trim(),
-                         city: this.city.value.trim(),
-                         state: this.locality.value.trim(),
-                         zip: Number(this.zipCode.value.trim()),
-                         phone: Number(this.phone.value.trim()),
-                         email: this.email.value.trim(),
-                         password: this.password.value.trim()
-                         };*/
-                        console.log(JSON.stringify(userJson));
+                        console.log(JSON.stringify(user));
                         //console.log(JSON.stringify(usuario));
                         //Creamos la respuesta para para enviarla al servidor en modo json
                         const respuesta = await fetch(url, {
@@ -294,7 +268,7 @@ import {User} from './User.js'
                                 headers: {
                                 "Content-Type": "application/json"
                                 },
-                                body: JSON.stringify(usuario)
+                                body: JSON.stringify(user)
                         });
                         //Comprobamos la respuesta que nos da el servidor 
 
@@ -304,7 +278,7 @@ import {User} from './User.js'
                         this.errorEnvio.style.color = "green";
                         this.errorEnvio.hidden = false;
                         //Creo la sesión
-                        sessionStorage.setItem('usuarioLogueado', JSON.stringify(userJson));
+                        sessionStorage.setItem('usuarioLogueado', JSON.stringify(user));
                         // Sesion storage individual.
                         sessionStorage.setItem('userEmail', user.email);
                         window.location.href = "signIn.html";
