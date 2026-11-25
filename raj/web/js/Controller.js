@@ -9,6 +9,12 @@ import {User} from './User.js'
 //const letras = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]+$/;
 
 class SignInController {
+    /**
+     *  @todo: Al cargar la página comprobar si está almacenado el email de un usuario 
+     *         en el sessionStorage y cargarlo en el campo email del formulario.
+     *         
+     * @returns {SignInController}
+     */
     constructor() {
         //console.log("2. Constructor ejecutado");
         
@@ -17,9 +23,15 @@ class SignInController {
         this.email = document.getElementById("email");
         this.password = document.getElementById("password");
         this.ojo = document.getElementById("ojo");
+        this.mensaje = document.getElementById("responseMessage");
         
         
+        // Cargar email guardado en sessionStorage si existe , me dice que email no sea null de la inicializacion de arriba 
+        const savedEmail = sessionStorage.getItem("userEmail");
+        if (savedEmail && this.email) {
+            this.email.value = savedEmail;
         
+        }
            /*
          * Inicializamos lo eventos todos los eventos que puede 
          * tener toda nuestra página web
@@ -27,9 +39,10 @@ class SignInController {
         
         // blur es foco en el campo cuando escriba el correo 
         // () refleja los paramateros que paso a la funcion 
+        
         //this.validarEmail() este es el metodo.
         this.email.addEventListener("blur" , () => this.validarEmail());
-        
+ 
          //this.email.addEventListener("focus", () => this.validarFocus()); lo hacemos con el css la ganancia de foco 
         this.password.addEventListener("blur", () => this.validarpassword());
         // añado el evento submit para enviar el contenido 
@@ -37,7 +50,8 @@ class SignInController {
         //hacemos el evento del ojo para ver 
         this.ojo.addEventListener("click", () => this.alternarPassword(this.ojo,this.password ));
         
-    };
+        
+    }
         
         // validar funciones. 
         //funciones para el boron 
@@ -53,58 +67,94 @@ class SignInController {
         }
     }
         
-      
-        validarEmail() {
+    /**
+     * @todo: Utilizar la misma expresión regular que se utiliza en SignUp para 
+     *        validar el email. Modificar el mensaje de error 
+     *        correspondiente si es necesario. hecho
+     * @returns {Boolean}
+     */  
+    validarEmail() {
     // Nos guardamos el dato recogido en el campo email
+    // const datos =  this.handlersesion(sessionStorage);
     const validaEmail = this.email.value.trim(); // .trim() quita espacios accidentales al inicio/final
-    
+    const errorEmail = document.getElementById("ErrorEmail");
     // Expresión regular para validar el formato del email
     const expRegular = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
     
-    // 1. Comprobar si el campo está vacío
+    //if(datos === true ){
+     //  validaEmail = sessionStorage;
+   // }else{
+     //   this.mostrarMensaje("el usuario no esta guardado");
+    
+    
+        
+   // 1. Comprobar si el campo está vacío
+    
     if (validaEmail === "") { 
-        alert("Este campo es obligatorio");
+           errorEmail.textContent = "Este campo es obligatorio";
+           errorEmail.style.color = "red";
+           errorEmail.hidden = false;
+       
         return false;
     }
     
     // 2. Comprobar si el formato del email es incorrecto con la expresion regular.
     if (!expRegular.test(validaEmail)) {
-        alert("Introduce un correo electrónico válido (ejemplo: nombre@correo.com)");
+           errorEmail.textContent = "El email esta mal escrito, ejemplo: Correo@gmail.com";
+           errorEmail.style.color = "red";
+           errorEmail.hidden = false;
+       
         return false;
     }
     
-    // 3. Si pasa ambas validaciones, todo está correcto
+    // 3. Si pasa ambas validaciones, está correcto
     return true;
 }
 
     validarpassword(){
         //nos guardamos el dato recogido en el campo email. 
         const validarContrasena = this.password.value.trim();
-        
+        const ErrorPasword = document.getElementById("ErrorPasword");
         // Expresión regular para validar el formato del email
         // exige que la contraseña tenga 8 catracteres y que contenga una minus
        const expRegular = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
-        
         // 1. Comprobar si el campo está vacío
         if(validarContrasena ===""){
-              alert("Es obligatorio rellenar el campo");
+            ErrorPasword.textContent = "Es obligatorio rellenar el campo";
+            ErrorPasword.style.color = "red";
+            ErrorPasword.hidden = false;
+        
                return false;
         }
-        
          // 2. Comprobar si el formato del email es incorrecto
-    if (!expRegular.test(validarContrasena)) {
-        // si sale este mensaje es que no cumple ni el requisito. 
-        alert("correo o contraseña mal ");
-        return false;
-    }
-        
-        // 3. Si pasa ambas validaciones, todo está correcto
+        if (!expRegular.test(validarContrasena)) {
+            // si sale este mensaje es que no cumple ni el requisito. 
+            ErrorPasword.textContent = "correo o contraseña mal ";
+            ErrorPasword.style.color = "red";
+            ErrorPasword.hidden = false;
+           
+            return false;
+        }
+        // 3. Si pasa ambas validaciones,  está correcto
         return true;
-        
-        
     }
-   //si usas fetch tienes que ser asincrono, fetch envia una peticion 
-   
+   /**
+    * @todo Cambiar la muestra de errores de alert() por el uso de un elemento de 
+    *       la página y su propiedad .textContent. hecho
+    *       
+    * @todo Crear un objeto de la clase User para encapsular el email y la password 
+    *       antes de buscarlo  en la colección de usuarios recibido desde el servidor. hecho 
+    *       
+    * @param {type} e
+    * @returns {undefined}
+    */
+    mostrarMensaje(e) {
+        const texto = "" ;
+        const color = "#b3261e";
+        this.mensaje.textContent = texto;
+        this.mensaje.style.color = color;
+        this.mensaje.style.textAlign = "center";
+    }
    async handlersesion(e){
        //para evitar el burbujeo de eventos
        e.preventDefault();
@@ -124,12 +174,30 @@ class SignInController {
          //const response = await fetch 
        try {
             // 2. Realizamos la petición GET a la API
+            // creamos la clase user con email y pasword encapsulados
+            const user = new User(
+             null,
+             null, 
+             null ,
+             null , 
+              null ,
+            null ,
+             null ,
+             null , 
+            null , 
+            this.email.value.trim(),
+            this.password.value.trim(),
+                    
+              );
+                    
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json'
                 }
             });
+            
+            
 
             // Si el servidor responde con un error (ej: 404, 500)
             if (!response.ok) {
@@ -139,13 +207,12 @@ class SignInController {
             // 3. Convertimos la respuesta en un array de usuarios de la BDD
             const listaUsuarios = await response.json();
             
-            // Obtenemos lo que ha escrito el usuario en el formulario
-            const emailIngresado = this.email.value.trim();
-            const passwordIngresado = this.password.value.trim();
+          
 
-            // 4. Buscamos si existe un usuario que coincida con el email y la contraseña
-            const usuarioEncontrado = listaUsuarios.find(user => 
-                user.email === emailIngresado && user.password === passwordIngresado
+            // 4. Buscamos si existe un usuario que coincida con el email y la contraseña 
+            // u es la variable de mi lista, user.email es mi objeto
+            const usuarioEncontrado = listaUsuarios.find
+            (u =>u.email === user.email && u.password === user.password
             );
 
             // 5. Comprobamos el resultado de la búsqueda
@@ -169,19 +236,22 @@ class SignInController {
                 sessionStorage.setItem('userStreet', usuarioEncontrado.street);
                 sessionStorage.setItem('userZip', usuarioEncontrado.zip);
                 
-                alert(`¡Inicio de sesión exitoso! Bienvenido, ${usuarioEncontrado.firstName || 'Usuario'}`);
+                this.mostrarMensaje(`¡Inicio de sesión exitoso! Bienvenido, ${usuarioEncontrado.firstName || 'Usuario'}`);
+                
                 console.log("Usuario autenticado:", usuarioEncontrado);
                 
                 // Redirigir a la página principal
                 window.location.href = "mainPage.html";
             } else {
                 //este error me salta cuando meto los caracteres de la contraseña bien pero no coincide.
-                alert("Correo o contraseña incorrectos.");
+                this.mostrarMensaje("Correo o contraseña incorrectos.");
+            
             }
 
         } catch (error) {
             console.error("Hubo un error en la petición fetch:", error);
-            alert("No se pudo completar la solicitud de inicio de sesión.");
+            this.mostrarMensaje("No se pudo completar la solicitud de inicio de sesión.");
+    
         }
     }
         
