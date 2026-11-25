@@ -26,6 +26,12 @@ class SignInController {
         this.mensaje = document.getElementById("responseMessage");
         
         
+        // Cargar email guardado en sessionStorage si existe , me dice que email no sea null de la inicializacion de arriba 
+        const savedEmail = sessionStorage.getItem("userEmail");
+        if (savedEmail && this.email) {
+            this.email.value = savedEmail;
+        
+        }
            /*
          * Inicializamos lo eventos todos los eventos que puede 
          * tener toda nuestra página web
@@ -36,8 +42,7 @@ class SignInController {
         
         //this.validarEmail() este es el metodo.
         this.email.addEventListener("blur" , () => this.validarEmail());
-        this.email. this.email.addEventListener("blur" , () => this.handlersesion());
-        
+ 
          //this.email.addEventListener("focus", () => this.validarFocus()); lo hacemos con el css la ganancia de foco 
         this.password.addEventListener("blur", () => this.validarpassword());
         // añado el evento submit para enviar el contenido 
@@ -45,8 +50,8 @@ class SignInController {
         //hacemos el evento del ojo para ver 
         this.ojo.addEventListener("click", () => this.alternarPassword(this.ojo,this.password ));
         
-         this.mensaje.setAttribute("role", "alert");
-    };
+        
+    }
         
         // validar funciones. 
         //funciones para el boron 
@@ -86,7 +91,7 @@ class SignInController {
    // 1. Comprobar si el campo está vacío
     
     if (validaEmail === "") { 
-           errorEmail.textdocument = "Este campo es obligatorio";
+           errorEmail.textContent = "Este campo es obligatorio";
            errorEmail.style.color = "red";
            errorEmail.hidden = false;
        
@@ -95,7 +100,7 @@ class SignInController {
     
     // 2. Comprobar si el formato del email es incorrecto con la expresion regular.
     if (!expRegular.test(validaEmail)) {
-           errorEmail.textdocument = "El email esta mal escrito, ejemplo: Correo@gmail.com";
+           errorEmail.textContent = "El email esta mal escrito, ejemplo: Correo@gmail.com";
            errorEmail.style.color = "red";
            errorEmail.hidden = false;
        
@@ -115,7 +120,7 @@ class SignInController {
        const expRegular = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
         // 1. Comprobar si el campo está vacío
         if(validarContrasena ===""){
-            ErrorPasword.textdocument = "Es obligatorio rellenar el campo";
+            ErrorPasword.textContent = "Es obligatorio rellenar el campo";
             ErrorPasword.style.color = "red";
             ErrorPasword.hidden = false;
         
@@ -124,7 +129,7 @@ class SignInController {
          // 2. Comprobar si el formato del email es incorrecto
         if (!expRegular.test(validarContrasena)) {
             // si sale este mensaje es que no cumple ni el requisito. 
-            ErrorPasword.textdocument = "correo o contraseña mal ";
+            ErrorPasword.textContent = "correo o contraseña mal ";
             ErrorPasword.style.color = "red";
             ErrorPasword.hidden = false;
            
@@ -138,7 +143,7 @@ class SignInController {
     *       la página y su propiedad .textContent. hecho
     *       
     * @todo Crear un objeto de la clase User para encapsular el email y la password 
-    *       antes de buscarlo  en la colección de usuarios recibido desde el servidor.
+    *       antes de buscarlo  en la colección de usuarios recibido desde el servidor. hecho 
     *       
     * @param {type} e
     * @returns {undefined}
@@ -169,12 +174,30 @@ class SignInController {
          //const response = await fetch 
        try {
             // 2. Realizamos la petición GET a la API
+            // creamos la clase user con email y pasword encapsulados
+            const user = new User(
+             null,
+             null, 
+             null ,
+             null , 
+              null ,
+            null ,
+             null ,
+             null , 
+            null , 
+            this.email.value.trim(),
+            this.password.value.trim(),
+                    
+              );
+                    
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json'
                 }
             });
+            
+            
 
             // Si el servidor responde con un error (ej: 404, 500)
             if (!response.ok) {
@@ -184,13 +207,12 @@ class SignInController {
             // 3. Convertimos la respuesta en un array de usuarios de la BDD
             const listaUsuarios = await response.json();
             
-            // Obtenemos lo que ha escrito el usuario en el formulario
-            const emailIngresado = this.email.value.trim();
-            const passwordIngresado = this.password.value.trim();
+          
 
-            // 4. Buscamos si existe un usuario que coincida con el email y la contraseña
-            const usuarioEncontrado = listaUsuarios.find(user => 
-                user.email === emailIngresado && user.password === passwordIngresado
+            // 4. Buscamos si existe un usuario que coincida con el email y la contraseña 
+            // u es la variable de mi lista, user.email es mi objeto
+            const usuarioEncontrado = listaUsuarios.find
+            (u =>u.email === user.email && u.password === user.password
             );
 
             // 5. Comprobamos el resultado de la búsqueda
