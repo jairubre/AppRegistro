@@ -118,15 +118,13 @@ CREATE TABLE purchase_product (
     purchase_id BIGINT        NOT NULL,
     product_id  BIGINT        NOT NULL,
     quantity    INT           NOT NULL DEFAULT 1,
-    unitPrice   DECIMAL(10,2) NOT NULL,
     CONSTRAINT pk_purchase_product PRIMARY KEY (purchase_id, product_id),
     CONSTRAINT fk_pp_purchase FOREIGN KEY (purchase_id)
         REFERENCES purchase (id)
         ON DELETE CASCADE,
     CONSTRAINT fk_pp_product  FOREIGN KEY (product_id)
         REFERENCES product (id),
-    CONSTRAINT ck_pp_quantity  CHECK (quantity > 0),
-    CONSTRAINT ck_pp_unitprice CHECK (unitPrice >= 0)
+    CONSTRAINT ck_pp_quantity  CHECK (quantity > 0)  
 ) ENGINE = InnoDB;
 
 -- ---------------------------------------------------------------------

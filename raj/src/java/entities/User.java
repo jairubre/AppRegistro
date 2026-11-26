@@ -4,9 +4,12 @@
  */
 package entities;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
@@ -18,6 +21,9 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
+import jakarta.xml.bind.annotation.XmlTransient;
+import java.util.List;
 
 /**
  *
@@ -41,25 +47,6 @@ import jakarta.persistence.GenerationType;
     @NamedQuery(name = "User.findByStreet", query = "SELECT u FROM User u WHERE u.street = :street")})
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Column(name = "zip")
-    private Integer zip;
-    @Basic(optional = false)
-    @NotNull
-    @Id
-    //lE dice al json q no espere un id y que se el auto incremento
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
-    @Column(name = "phone")
-    private BigInteger phone;
-    @Size(max = 255)
-    @Column(name = "city")
-    private String city;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Size(max = 255)
-    @Column(name = "email",unique=true)
-    private String email;
     @Size(max = 255)
     @Column(name = "firstName")
     private String firstName;
@@ -70,14 +57,48 @@ public class User implements Serializable {
     @Column(name = "middleInitial")
     private String middleInitial;
     @Size(max = 255)
-    @Column(name = "password")
-    private String password;
+    @Column(name = "street")
+    private String street;
+    @Size(max = 255)
+    @Column(name = "city")
+    private String city;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 255)
     @Column(name = "state")
     private String state;
-    @Size(max = 255)
-    @Column(name = "street")
-    private String street;
+    @Size(max = 10)
+    @Column(name = "zip")
+    private String zip;
+    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
+    @Size(max = 20)
+    @Column(name = "phone")
+    private String phone;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "email")
+    private String email;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "password")
+    private String password;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 5)
+    @Column(name = "role")
+    private String role;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.EAGER)
+    private List<Purchase> purchaseList;
+    private static final long serialVersionUID = 1L;
+    @Basic(optional = false)
+    @NotNull
+    @Id
+    //lE dice al json q no espere un id y que se el auto incremento
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
     public User() {
     }
@@ -86,13 +107,6 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public Integer getZip() {
-        return zip;
-    }
-
-    public void setZip(Integer zip) {
-        this.zip = zip;
-    }
 
     public Long getId() {
         return id;
@@ -101,29 +115,27 @@ public class User implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public BigInteger getPhone() {
-        return phone;
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
     }
-
-    public void setPhone(BigInteger phone) {
-        this.phone = phone;
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof User)) {
+            return false;
+        }
+        User other = (User) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public String toString() {
+        return "entities.User[ id=" + id + " ]";
     }
 
     public String getFirstName() {
@@ -150,12 +162,20 @@ public class User implements Serializable {
         this.middleInitial = middleInitial;
     }
 
-    public String getPassword() {
-        return password;
+    public String getStreet() {
+        return street;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getState() {
@@ -166,37 +186,54 @@ public class User implements Serializable {
         this.state = state;
     }
 
-    public String getStreet() {
-        return street;
+    public String getZip() {
+        return zip;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public String getPhone() {
+        return phone;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
-            return false;
-        }
-        User other = (User) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    @Override
-    public String toString() {
-        return "entities.User[ id=" + id + " ]";
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @XmlTransient
+    @JsonbTransient
+    public List<Purchase> getPurchaseList() {
+        return purchaseList;
+    }
+
+    public void setPurchaseList(List<Purchase> purchaseList) {
+        this.purchaseList = purchaseList;
     }
 
 
