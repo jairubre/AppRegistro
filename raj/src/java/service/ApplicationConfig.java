@@ -27,6 +27,10 @@ public class ApplicationConfig extends jakarta.ws.rs.core.Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(service.CategoryFacadeREST.class);
+        resources.add(service.ProductFacadeREST.class);
+        resources.add(service.PurchaseFacadeREST.class);
+        resources.add(service.PurchaseProductFacadeREST.class);
         resources.add(service.UserFacadeREST.class);
     }
     
