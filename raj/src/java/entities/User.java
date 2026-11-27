@@ -84,8 +84,9 @@ public class User implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "password")
     private String password;
+    
     @Basic(optional = false)
-    @NotNull
+    
     @Size(min = 1, max = 5)
     @Column(name = "role")
     private String role;
@@ -93,7 +94,6 @@ public class User implements Serializable {
     private List<Purchase> purchaseList;
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
-    @NotNull
     @Id
     //lE dice al json q no espere un id y que se el auto incremento
     @GeneratedValue(strategy = GenerationType.AUTO)
