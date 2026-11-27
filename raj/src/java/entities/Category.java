@@ -91,9 +91,9 @@ public class Category implements Serializable {
         this.nameCategory = nameCategory;
     }
  
-    // No sale en el JSON: evita cargar todos los productos de cada categoría
-    //@XmlTransient
-    //@JsonbTransient
+    // Productos de la categoría: SOLO en XML.
+    // En JSON no sale, porque en JSON la relación se ve desde Product.
+    @JsonbTransient
     public List<Product> getProductList() {
         return productList;
     }
@@ -102,7 +102,7 @@ public class Category implements Serializable {
         this.productList = productList;
     }
  
-    // No sale en el JSON: corta el bucle hija -> padre -> hijas -> padre...
+    // No sale en JSON ni XML: corta el bucle hija -> padre -> hijas -> padre...
     @XmlTransient
     @JsonbTransient
     public List<Category> getCategoryList() {
@@ -147,4 +147,3 @@ public class Category implements Serializable {
     }
  
 }
- 

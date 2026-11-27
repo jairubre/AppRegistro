@@ -45,9 +45,9 @@ import jakarta.json.bind.annotation.JsonbTransient;
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    // Sin @NotNull ni @Basic(optional = false): el id llega a null al crear
+    // y lo genera Hibernate con la tabla product_seq
     @Id
-    @Basic(optional = false)
-    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
@@ -150,8 +150,9 @@ public class Product implements Serializable {
         this.stock = stock;
     }
 
+    // Categorías del producto: SOLO en JSON.
+    // En XML no sale, porque en XML la relación se ve desde Category.
     @XmlTransient
-    @JsonbTransient
     public List<Category> getCategoryList() {
         return categoryList;
     }
